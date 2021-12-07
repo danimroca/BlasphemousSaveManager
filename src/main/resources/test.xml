@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<profiles>
+    <profile>
+        <name>profile1</name>
+        <active>1</active>
+        <saves>
+        	<save>
+        		<name>test</name>
+        		<order>0</order>
+        	</save>
+        	<save>
+        		<name>test1</name>
+        		<order>1</order>
+        	</save>
+        </saves>
+    </profile>
+    <profile>
+        <name>profile2</name>
+        <active>0</active>
+        <saves>
+        	<save>
+        		<name>testa</name>
+        		<order>0</order>
+        	</save>
+        	<save>
+        		<name>testb</name>
+        		<order>1</order>
+        	</save>
+        	<save>
+        		<name>testc</name>
+        		<order>2</order>
+        	</save>
+        </saves>
+    </profile>
+</profiles>
