@@ -46,4 +46,8 @@ public class Save implements Serializable {
 		this.order = order;
 	}
 
+	@Override
+	public String toString() {
+		return name;
+	}
 }

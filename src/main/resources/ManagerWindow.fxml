@@ -32,12 +32,12 @@
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="ordenar" GridPane.rowIndex="1" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="perfil" />
                   <TextField fx:id="profileFilterInput" promptText="filtro" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                  <ChoiceBox fx:id="profileSelect" prefWidth="150.0" GridPane.columnIndex="1" />
+                  <ChoiceBox fx:id="profileChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" onAction="#selectProfile"/>
                   <ChoiceBox fx:id="orderType" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Button fx:id="botonEditarPerfil" mnemonicParsing="false" onAction="#abrirVentanaPerfil" text="editar perfil" GridPane.columnIndex="2" />
+                  <Button fx:id="botonEditarPerfil" mnemonicParsing="false" onAction="#openProfileWindow" text="editar perfil" GridPane.columnIndex="2" />
                </children>
             </GridPane>
-            <ListView />
+            <ListView fx:id="saveListView" />
          </children>
       </VBox>
    </center>

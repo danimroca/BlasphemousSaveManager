@@ -1,5 +1,6 @@
 package application.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -15,6 +16,10 @@ public class Profiles {
     private List<Profile> profiles = null;
 
 	public List<Profile> getProfiles() {
+
+		if (profiles == null) {
+			profiles = new ArrayList<>();
+		}
 		return profiles;
 	}
 
