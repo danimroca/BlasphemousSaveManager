@@ -29,12 +29,12 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="ordenar" GridPane.rowIndex="1" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="perfil" />
-                  <TextField fx:id="profileFilterInput" promptText="filtro" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sort" GridPane.rowIndex="1" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Profile" />
+                  <TextField fx:id="profileFilterInput" promptText="filter" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                   <ChoiceBox fx:id="profileChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" onAction="#selectProfile"/>
                   <ChoiceBox fx:id="orderType" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Button fx:id="botonEditarPerfil" mnemonicParsing="false" onAction="#openProfileWindow" text="editar perfil" GridPane.columnIndex="2" />
+                  <Button fx:id="botonEditarPerfil" mnemonicParsing="false" onAction="#openProfileWindow" text="Edit profiles" GridPane.columnIndex="2" />
                </children>
             </GridPane>
             <ListView fx:id="saveListView" />
@@ -44,34 +44,34 @@
    <bottom>
       <HBox alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" text="importar">
+            <Button mnemonicParsing="false" text="Import">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" text="remplazar">
+            <Button mnemonicParsing="false" text="Replace">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" text="cargar">
+            <Button mnemonicParsing="false" text="Load">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" text="borrar">
+            <Button mnemonicParsing="false" text="Delete">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" text="coinfiguracion" />
+            <Button mnemonicParsing="false" text="Settings" />
          </children>
       </HBox>
    </bottom>
    <top>
       <Pane prefHeight="41.0" prefWidth="322.0" BorderPane.alignment="CENTER">
          <children>
-            <Text layoutX="150.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="cabecera" />
+            <Text layoutX="150.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="HEader" />
          </children>
       </Pane>
    </top>

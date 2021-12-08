@@ -79,6 +79,8 @@ public class ManagerController implements Initializable {
 			ProfileController profileController = loader.getController();
 			profileController.setMainStage(stage);
 			profileController.setProfile(profile);
+			profileController.setProfiles(profiles);
+			profileController.loadProfilesToGUI();
 			stage.show();
 		} catch (Exception e) {
 			e.printStackTrace();

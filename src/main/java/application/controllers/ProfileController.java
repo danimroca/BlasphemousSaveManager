@@ -3,15 +3,13 @@ package application.controllers;
 import application.model.Profile;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
@@ -20,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProfileController {
-	
+
 	private List<Profile> profiles;
 	private Profile profile;
 	private Stage mainStage;
@@ -67,42 +65,67 @@ public class ProfileController {
 		}
 	}
 
-	public void openProfileNameDialog() {
-		try {
-			editProfileBox.setVisible(true);
-			editProfileBox.setManaged(true);
-			profileListPane.setVisible(false);
-			profileListPane.setManaged(false);
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/EditProfileDialog.fxml"));
-			Scene scene = new Scene(loader.load(), 400, 300);
-			scene.getStylesheets().add(getClass().getResource("/application.css").toExternalForm());
-			Stage stage = new Stage();
-			stage.setScene(scene);
-			stage.initModality(Modality.APPLICATION_MODAL);
-			dialogNameStage = stage;
-			stage.show();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public void newProfile() {
+		profile = new Profile();
+		profileNameInput.setText("");
+		openProfileNameDialog();
 	}
 
-	public void saveProfileName() {
+	public void editProfile() {
+		profile = profileList.getSelectionModel().getSelectedItem();
 		if (profile == null) {
-			profile = new Profile();
-			profile.setActive(true);
-			profile.setSaves(new ArrayList<>());
-			profiles = new ArrayList<>();
+			return;
 		}
-		profile.setName(profileNameInput.getText());
-		profiles.add(profile);
-		updateProfiles();
+		profileNameInput.setText(profile.getName());
+		openProfileNameDialog();
+	}
+
+	public void deleteProfile() {
+		profile = profileList.getSelectionModel().getSelectedItem();
+		if (profile == null) {
+			return;
+		}
+		profileNameInput.setText(profile.getName());
+		profiles.remove(profile);
+		if (profiles.isEmpty()) {
+			profile = null;
+		} else {
+			profile = profiles.get(0);
+		}
 		loadProfilesToGUI();
-		closeCurrentWindow();
+	}
+
+	public void openProfileNameDialog() {
+		editProfileBox.setVisible(true);
+		editProfileBox.setManaged(true);
+		profileListPane.setVisible(false);
+		profileListPane.setManaged(false);
+	}
+
+	public void closeProfileNameMenu() {
+		editProfileBox.setVisible(false);
+		editProfileBox.setManaged(false);
+		profileListPane.setVisible(true);
+		profileListPane.setManaged(true);
+	}
+
+	public void saveProfile() {
+		profile.setActive(true);
+		profile.setSaves(new ArrayList<>());
+		profile.setName(profileNameInput.getText());
+
+		if (profiles.contains(profile)) {
+			updateProfiles();
+		} else {
+			profiles.add(profile);
+		}
+		loadProfilesToGUI();
+		closeProfileNameMenu();
 	}
 
 	public void updateProfiles() {
-		int index = profiles.indexOf(profile);
-		profiles.set(index, profile);
+		profiles.remove(profile);
+		profiles.add(profile);
 	}
 
 	public void setMainStage(Stage mainStage) {
@@ -111,6 +134,10 @@ public class ProfileController {
 
 	public void setProfile(Profile profile) {
 		this.profile = profile;
+	}
+
+	public void setProfiles(List<Profile> profiles) {
+		this.profiles = profiles;
 	}
 
 	public void closeCurrentWindow() {
