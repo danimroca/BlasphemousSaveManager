@@ -4,6 +4,7 @@ module BlasphemousSaveMaganer {
 	requires javafx.fxml;
 	requires java.xml;
 	requires java.xml.bind;
+	requires org.apache.commons.io;
 
 	opens application to javafx.graphics, javafx.fxml;
 	opens application.controllers to javafx.graphics, javafx.fxml;

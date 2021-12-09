@@ -3,6 +3,7 @@
     <profile>
         <name>profile1</name>
         <active>1</active>
+		<saveSlot>0</saveSlot>
         <saves>
         	<save>
         		<name>test</name>
@@ -17,6 +18,7 @@
     <profile>
         <name>profile2</name>
         <active>0</active>
+		<saveSlot>2</saveSlot>
         <saves>
         	<save>
         		<name>testa</name>

@@ -10,13 +10,13 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProfileController {
+public class ProfileController extends BaseController {
 
 	private List<Profile> profiles;
 	private Profile profile;
@@ -43,7 +43,7 @@ public class ProfileController {
 		profileList.setItems(FXCollections.observableArrayList(profiles));
 	}
 
-	public void openSaveDirectoryChooser() {
+	public void openSaveDirectoryChooser() throws IOException {
 		DirectoryChooser directoryChooser = new DirectoryChooser();
 		directoryChooser.setTitle("Save file location");
 		saveLocation = directoryChooser.showDialog(getCurrentStage());
@@ -51,9 +51,11 @@ public class ProfileController {
 		if (saveLocation != null && saveLocation.exists()) {
 			saveLocationInput.setText(saveLocation.getAbsolutePath());
 		}
+
+		updateSavePath(saveLocation.getAbsolutePath());
 	}
 
-	public void openProfileDirectoryChooser() {
+	public void openProfileDirectoryChooser() throws IOException {
 		DirectoryChooser directoryChooser = new DirectoryChooser();
 		directoryChooser.setTitle("Profiles location");
 		profileLocation = directoryChooser.showDialog(getCurrentStage());
@@ -61,6 +63,8 @@ public class ProfileController {
 		if (profileLocation != null && profileLocation.exists()) {
 			profileLocationInput.setText(profileLocation.getAbsolutePath());
 		}
+
+		updateProfilePath(profileLocation.getAbsolutePath());
 	}
 
 	public void newProfile() {
@@ -132,14 +136,6 @@ public class ProfileController {
 
 	public void setProfiles(List<Profile> profiles) {
 		this.profiles = profiles;
-	}
-
-	public void closeCurrentStage() {
-		((Stage) Stage.getWindows().stream().filter(Window::isFocused).findFirst().get()).close();
-	}
-
-	public Stage getCurrentStage() {
-		return (Stage) Stage.getWindows().stream().filter(Window::isFocused).findFirst().get();
 	}
 
 }

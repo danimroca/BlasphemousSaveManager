@@ -27,14 +27,17 @@
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sort" GridPane.rowIndex="1" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sort" GridPane.rowIndex="2" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Profile" />
-                  <TextField fx:id="profileFilterInput" promptText="filter" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                  <ChoiceBox fx:id="profileChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" onAction="#selectProfile"/>
-                  <ChoiceBox fx:id="orderType" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="profileFilterInput" promptText="filter" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                  <ChoiceBox fx:id="profileChoiceBox" onAction="#selectProfile" prefWidth="150.0" GridPane.columnIndex="1" />
+                  <ChoiceBox fx:id="orderType" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <Button fx:id="botonEditarPerfil" mnemonicParsing="false" onAction="#openProfileWindow" text="Edit profiles" GridPane.columnIndex="2" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Save Slot" GridPane.rowIndex="1" />
+                  <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="saveSlotChoiceBox"/>
                </children>
             </GridPane>
             <ListView fx:id="saveListView" />
@@ -44,7 +47,7 @@
    <bottom>
       <HBox alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" text="Import">
+            <Button mnemonicParsing="false" onAction="#importSave" text="Import">
                <HBox.margin>
                   <Insets />
                </HBox.margin>

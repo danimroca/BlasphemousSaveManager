@@ -18,6 +18,7 @@ public class Profile implements Serializable {
 	private String name;
 	private List<Save> saves;
 	private boolean active;
+	private int saveSlot;
 	
 	public String getName() {
 		return name;
@@ -39,6 +40,14 @@ public class Profile implements Serializable {
 	}
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+
+	public int getSaveSlot() {
+		return saveSlot;
+	}
+
+	public void setSaveSlot(int saveSlot) {
+		this.saveSlot = saveSlot;
 	}
 
 	@Override

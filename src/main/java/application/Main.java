@@ -15,7 +15,8 @@ public class Main extends Application {
 			Parent root = FXMLLoader.load(getClass().getResource("/ManagerWindow.fxml"));
 			Scene scene = new Scene(root,600,800);
 			scene.getStylesheets().add(getClass().getResource("/application.css").toExternalForm());
-			
+
+			primaryStage.setTitle("Blasphemous Save Manager");
 			primaryStage.setScene(scene);
 			primaryStage.show();
 
