@@ -43,11 +43,11 @@ public class ManagerController implements Initializable {
 
 
 	@Override
-	public void initialize(URL location, ResourceBundle resources) {
+	public void initialize(URL location, ResourceBundle resources) {//Inicia el controlador y obtiene el Profile
 
 		Unmarshaller jaxbUnmarshaller = null;
 		try {
-			JAXBContext jaxbContext = JAXBContext.newInstance(Profiles.class);
+			JAXBContext jaxbContext = JAXBContext.newInstance(Profiles.class); 
 			jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 			profiles = ((Profiles) jaxbUnmarshaller.unmarshal(new File(getClass().getResource("/test.xml").toURI()))).getProfiles();
 
