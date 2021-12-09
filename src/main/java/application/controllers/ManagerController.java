@@ -77,7 +77,6 @@ public class ManagerController implements Initializable {
 			stage.setScene(scene);
 			stage.initModality(Modality.APPLICATION_MODAL);
 			ProfileController profileController = loader.getController();
-			profileController.setMainStage(stage);
 			profileController.setProfile(profile);
 			profileController.setProfiles(profiles);
 			profileController.loadProfilesToGUI();
@@ -112,6 +111,10 @@ public class ManagerController implements Initializable {
 		if (!saves.isEmpty()) {
 			selectedSave = saves.get(0);
 		}
+	}
+
+	public void importSave() {
+
 	}
 
 }

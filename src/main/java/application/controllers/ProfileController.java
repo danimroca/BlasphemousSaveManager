@@ -3,7 +3,6 @@ package application.controllers;
 import application.model.Profile;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -21,7 +20,6 @@ public class ProfileController {
 
 	private List<Profile> profiles;
 	private Profile profile;
-	private Stage mainStage;
 	private File profileLocation;
 	private File saveLocation;
 	private Stage dialogNameStage;
@@ -48,7 +46,7 @@ public class ProfileController {
 	public void openSaveDirectoryChooser() {
 		DirectoryChooser directoryChooser = new DirectoryChooser();
 		directoryChooser.setTitle("Save file location");
-		saveLocation = directoryChooser.showDialog(mainStage);
+		saveLocation = directoryChooser.showDialog(getCurrentStage());
 
 		if (saveLocation != null && saveLocation.exists()) {
 			saveLocationInput.setText(saveLocation.getAbsolutePath());
@@ -58,7 +56,7 @@ public class ProfileController {
 	public void openProfileDirectoryChooser() {
 		DirectoryChooser directoryChooser = new DirectoryChooser();
 		directoryChooser.setTitle("Profiles location");
-		profileLocation = directoryChooser.showDialog(mainStage);
+		profileLocation = directoryChooser.showDialog(getCurrentStage());
 
 		if (profileLocation != null && profileLocation.exists()) {
 			profileLocationInput.setText(profileLocation.getAbsolutePath());
@@ -128,10 +126,6 @@ public class ProfileController {
 		profiles.add(profile);
 	}
 
-	public void setMainStage(Stage mainStage) {
-		this.mainStage = mainStage;
-	}
-
 	public void setProfile(Profile profile) {
 		this.profile = profile;
 	}
@@ -140,9 +134,12 @@ public class ProfileController {
 		this.profiles = profiles;
 	}
 
-	public void closeCurrentWindow() {
-		Stage stage = (Stage) Stage.getWindows().stream().filter(Window::isFocused).findFirst().get();
-		stage.close();
+	public void closeCurrentStage() {
+		((Stage) Stage.getWindows().stream().filter(Window::isFocused).findFirst().get()).close();
+	}
+
+	public Stage getCurrentStage() {
+		return (Stage) Stage.getWindows().stream().filter(Window::isFocused).findFirst().get();
 	}
 
 }
