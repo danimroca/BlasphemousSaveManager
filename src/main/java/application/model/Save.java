@@ -14,7 +14,7 @@ public class Save implements Serializable {
 	
 	private static final long serialVersionUID = -3123314282466102000L;
 	
-	private String name;
+	private String name = "";
 	private int order;
 	@XmlTransient
 	private File saveFile;

@@ -15,7 +15,7 @@ public class Profile implements Serializable {
 	
 	private static final long serialVersionUID = 5224425299619734139L;
 	
-	private String name;
+	private String name = "";
 	private List<Save> saves;
 	private boolean active;
 	private int saveSlot;
