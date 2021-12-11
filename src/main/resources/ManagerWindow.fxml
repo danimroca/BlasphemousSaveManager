@@ -37,7 +37,7 @@
                   <ChoiceBox fx:id="orderType" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <Button fx:id="botonEditarPerfil" mnemonicParsing="false" onAction="#openProfileWindow" text="Edit profiles" GridPane.columnIndex="2" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Save Slot" GridPane.rowIndex="1" />
-                  <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="saveSlotChoiceBox"/>
+                  <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="saveSlotChoiceBox" onAction="#selectSaveSlot"/>
                </children>
             </GridPane>
             <ListView fx:id="saveListView" />
@@ -52,7 +52,7 @@
                   <Insets />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" text="Replace">
+            <Button mnemonicParsing="false" text="Replace" onAction="#replaceSave">
                <HBox.margin>
                   <Insets />
                </HBox.margin>

@@ -5,17 +5,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.*;
 
 @XmlRootElement(name = "profile")
-@XmlAccessorType(XmlAccessType.PROPERTY)
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Profile implements Serializable {
 	
 	private static final long serialVersionUID = 5224425299619734139L;
 	
 	private String name = "";
+	@XmlElementWrapper(name="saves")
+	@XmlElement(name="save")
 	private List<Save> saves;
 	private boolean active;
 	private int saveSlot;
@@ -31,6 +31,15 @@ public class Profile implements Serializable {
 			return new ArrayList<>();
 		}
 		return saves;
+	}
+	public void addSave(Save save) {
+		if (saves == null) {
+			saves = new ArrayList<>();
+		}
+		saves.add(save);
+	}
+	public void removeSave(String saveName) {
+		saves.removeIf(save -> save.getName().equals(saveName));
 	}
 	public void setSaves(List<Save> saves) {
 		this.saves = saves;
@@ -48,6 +57,14 @@ public class Profile implements Serializable {
 
 	public void setSaveSlot(int saveSlot) {
 		this.saveSlot = saveSlot;
+	}
+
+	public void deactivateProfile() {
+		this.active = false;
+	}
+
+	public void activateProfile() {
+		this.active = true;
 	}
 
 	@Override

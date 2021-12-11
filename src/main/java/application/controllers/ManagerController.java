@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.stage.Modality;
@@ -20,6 +21,8 @@ import javax.xml.bind.Unmarshaller;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -28,9 +31,6 @@ public class ManagerController extends BaseController implements Initializable {
 
 	private Profile profile;
 	private List<Profile> profiles;
-	private List<Save> saves;
-	private Save selectedSave;
-	private String savePath;
 
 	@FXML
 	private ChoiceBox profileChoiceBox;
@@ -51,7 +51,7 @@ public class ManagerController extends BaseController implements Initializable {
 
 		if (profile != null) {
 			profileChoiceBox.setValue(profile.getName());
-			saveSlotChoiceBox.setValue(profile.getSaveSlot()+1);
+			saveSlotChoiceBox.setValue(profile.getSaveSlot());
 			loadSaveListView();
 		} else {
 			saveSlotChoiceBox.setValue(1);
@@ -59,7 +59,7 @@ public class ManagerController extends BaseController implements Initializable {
 
 	}
 
-	public void loadProfileChoiceBox() {
+	private void loadProfileChoiceBox() {
 		profileChoiceBox.getItems().clear();
 		profileChoiceBox.setItems(FXCollections.observableArrayList(profiles));
 		if (profiles.isEmpty()) {
@@ -70,7 +70,7 @@ public class ManagerController extends BaseController implements Initializable {
 		}
 	}
 
-	public void loadProfiles() {
+	private void loadProfiles() {
 		if (getProfilePath() != null && !getProfilePath().isEmpty()) {
 			//we load the profiles and then load the saves
 			Unmarshaller jaxbUnmarshaller = null;
@@ -86,7 +86,6 @@ public class ManagerController extends BaseController implements Initializable {
 		}
 		if (!profiles.isEmpty()) {
 			profile = profiles.stream().filter(Profile::isActive).findFirst().get();
-			saves = profile.getSaves();
 		}
 	}
 
@@ -122,31 +121,89 @@ public class ManagerController extends BaseController implements Initializable {
 	}
 
 	public void selectProfile() {
-		Profile auxProf = profiles.stream().filter(prof -> prof.getName().equals(profileChoiceBox.getValue())).findFirst().orElse(null);
+		Profile auxProf = null;
+		for (Profile prof1 : profiles) {
+			if (prof1.getName().equals(profileChoiceBox.getValue().toString())) {
+				auxProf = prof1;
+			}
+		}
 		if (auxProf == null) {
 			return;
 		}
 		if (profile == null) {
 			return;
 		}
-		profile.setActive(false);
 		profile = auxProf;
+		profiles.forEach(Profile::deactivateProfile);
 		profile.setActive(true);
+		updateProfilesList();
+		savesProfilesToXMLFile(profiles);
 		loadSaveListView();
 	}
 
-	public void loadSaveListView() {
-		saveListView.setItems(FXCollections.observableArrayList(saves));
+	public void selectSaveSlot() {
+		if (profile == null) {
+			return;
+		}
+		int saveSlot = Integer.parseInt(saveSlotChoiceBox.getValue().toString());
+		profile.setSaveSlot(saveSlot);
+		updateProfilesList();
+		savesProfilesToXMLFile(profiles);
 	}
 
-	public void importSave() {
-		int saveSlotNumber = ((int) saveSlotChoiceBox.getValue()) -1;
+	private void loadSaveListView() {
+		saveListView.setItems(FXCollections.observableArrayList(profile.getSaves()));
+	}
+
+	public void replaceSave() throws IOException {
+		Save save = (Save) saveListView.getSelectionModel().getSelectedItem();
+		if (save == null) {
+			return;
+		}
+
+		int saveSlotNumber = Integer.parseInt(saveSlotChoiceBox.getValue().toString())-1;
 
 		String saveFile = getSavePath() + File.separator + "savegame_" + saveSlotNumber + ".save";
 		String saveBackupFile = getSavePath()  + File.separator +  "savegame_" + saveSlotNumber + ".save_backup";
 
 		File f = new File(saveFile);
 		File f2 = new File(saveBackupFile);
+
+		if (!f.exists()) {
+			Alert alert = new Alert(Alert.AlertType.WARNING,"There's no save files in that save slot.");
+			alert.showAndWait();
+			return;
+		}
+
+		Path saveFilePath = save.getSaveFile().toPath();
+		Path backupSaveFilePath = save.getBackupSaveFile().toPath();
+
+		Files.deleteIfExists(saveFilePath);
+		Files.deleteIfExists(backupSaveFilePath);
+
+		try {
+			FileUtils.copyFile(f, saveFilePath.toFile());
+			FileUtils.copyFile(f2, backupSaveFilePath.toFile());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public void importSave() {
+		int saveSlotNumber = Integer.parseInt(saveSlotChoiceBox.getValue().toString())-1;
+
+		String saveFile = getSavePath() + File.separator + "savegame_" + saveSlotNumber + ".save";
+		String saveBackupFile = getSavePath()  + File.separator +  "savegame_" + saveSlotNumber + ".save_backup";
+
+		File f = new File(saveFile);
+		File f2 = new File(saveBackupFile);
+
+		if (!f.exists()) {
+			Alert alert = new Alert(Alert.AlertType.WARNING,"There's no save files in that save slot.");
+			alert.showAndWait();
+			return;
+		}
 
 		File saveFolder = new File(getSavePath() + File.separator + "saves");
 		if (!saveFolder.exists()) {
@@ -167,10 +224,12 @@ public class ManagerController extends BaseController implements Initializable {
 		save.setName(saveGameFolder.getName());
 		save.setSaveFile(f);
 		save.setBackupSaveFile(f2);
-		save.setOrder(saves.size()-1);
+		save.setOrder(profile.getSaves().size()-1);
 
-		saves.add(save);
+		profile.addSave(save);
+		updateProfilesList();
 		loadSaveListView();
+		savesProfilesToXMLFile(profiles);
 	}
 
 	private File generateSaveGameFolder(int i) {
@@ -181,6 +240,11 @@ public class ManagerController extends BaseController implements Initializable {
 		} else {
 			return new File(saveGameFolderName);
 		}
+	}
+
+	private void updateProfilesList() {
+		profiles.remove(profile);
+		profiles.add(profile);
 	}
 
 }
