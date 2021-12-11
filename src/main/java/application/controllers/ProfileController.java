@@ -40,7 +40,15 @@ public class ProfileController extends BaseController {
 	private Pane profileListPane;
 
 	public void loadProfilesToGUI() {
+		loadProperties();
+		profileList.getItems().clear();
 		profileList.setItems(FXCollections.observableArrayList(profiles));
+		if (!getProfilePath().isEmpty()) {
+			profileLocationInput.setText(getProfilePath());
+		}
+		if (!getSavePath().isEmpty()) {
+			saveLocationInput.setText(getSavePath());
+		}
 	}
 
 	public void openSaveDirectoryChooser() throws IOException {
@@ -69,6 +77,7 @@ public class ProfileController extends BaseController {
 
 	public void newProfile() {
 		profile = new Profile();
+		profile.setName("change my name");
 		profileNameInput.setText("");
 		openProfileNameDialog();
 	}
@@ -95,6 +104,7 @@ public class ProfileController extends BaseController {
 			profile = profiles.get(0);
 		}
 		loadProfilesToGUI();
+		savesProfilesToXMLFile(profiles);
 	}
 
 	public void openProfileNameDialog() {
@@ -122,6 +132,7 @@ public class ProfileController extends BaseController {
 			profiles.add(profile);
 		}
 		loadProfilesToGUI();
+		savesProfilesToXMLFile(profiles);
 		closeProfileNameMenu();
 	}
 

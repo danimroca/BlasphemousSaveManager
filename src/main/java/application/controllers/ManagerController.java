@@ -12,6 +12,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import org.apache.commons.io.FileUtils;
 
 import javax.xml.bind.JAXBContext;
@@ -42,41 +43,51 @@ public class ManagerController extends BaseController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
-		//we check if there's a properties file, if not we create it.
-		if (!isPropertiesFileExists()) {
+		loadProperties();
+		loadProfiles();
+		loadProfileChoiceBox();
+
+		saveSlotChoiceBox.setItems(FXCollections.observableArrayList("1","2","3"));
+
+		if (profile != null) {
+			profileChoiceBox.setValue(profile.getName());
+			saveSlotChoiceBox.setValue(profile.getSaveSlot()+1);
+			loadSaveListView();
+		} else {
+			saveSlotChoiceBox.setValue(1);
+		}
+
+	}
+
+	public void loadProfileChoiceBox() {
+		profileChoiceBox.getItems().clear();
+		profileChoiceBox.setItems(FXCollections.observableArrayList(profiles));
+		if (profiles.isEmpty()) {
+			profile = null;
+		} else {
+			profile = profiles.get(0);
+			profileChoiceBox.setValue(profile.getName());
+		}
+	}
+
+	public void loadProfiles() {
+		if (getProfilePath() != null && !getProfilePath().isEmpty()) {
+			//we load the profiles and then load the saves
+			Unmarshaller jaxbUnmarshaller = null;
 			try {
-				savePropertiesFile();
-			} catch (IOException e) {
+				JAXBContext jaxbContext = JAXBContext.newInstance(Profiles.class);
+				jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+				profiles = ((Profiles) jaxbUnmarshaller.unmarshal(new File(getProfilesFilePath()))).getProfiles();
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
-		loadProperties();
-
-		//we load the profiles and then load the saves
-		Unmarshaller jaxbUnmarshaller = null;
-		try {
-			JAXBContext jaxbContext = JAXBContext.newInstance(Profiles.class); 
-			jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-			profiles = ((Profiles) jaxbUnmarshaller.unmarshal(new File(getProfilePath()))).getProfiles();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		if (profiles.isEmpty()) {
-			profiles = new ArrayList<>();
-			profile = new Profile();
-			profiles.add(profile);
 		} else {
-			profile = profiles.stream().filter(Profile::isActive).findFirst().get();
+			profiles = new ArrayList<>();
 		}
-		saves = profile.getSaves();
-
-		profileChoiceBox.setItems(FXCollections.observableArrayList(profiles));
-		profileChoiceBox.setValue(profile.getName());
-		saveSlotChoiceBox.setItems(FXCollections.observableArrayList("1","2","3"));
-		saveSlotChoiceBox.setValue(profile.getSaveSlot()+1);
-
-		loadSaveListView();
+		if (!profiles.isEmpty()) {
+			profile = profiles.stream().filter(Profile::isActive).findFirst().get();
+			saves = profile.getSaves();
+		}
 	}
 
 	public void openProfileWindow() {
@@ -89,19 +100,38 @@ public class ManagerController extends BaseController implements Initializable {
 			stage.initModality(Modality.APPLICATION_MODAL);
 			stage.setTitle("Profile Configuration");
 			ProfileController profileController = loader.getController();
-			profileController.setProfile(profile);
 			profileController.setProfiles(profiles);
 			profileController.loadProfilesToGUI();
 			stage.show();
+			scene.getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, this::closeProfileWindowEvent);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
 
+	/**
+	 * Event launched when the profile window gets a close request
+	 * this will load the profiles from the xml profile file
+	 * and load them into the UI
+	 *
+	 * @param event
+	 */
+	private void closeProfileWindowEvent(WindowEvent event) {
+		loadProfiles();
+		loadProfileChoiceBox();
 	}
 
 	public void selectProfile() {
-		profile = profiles.stream().filter(prof -> prof.getName().equals(profileChoiceBox.getValue())).findFirst().get();
-
+		Profile auxProf = profiles.stream().filter(prof -> prof.getName().equals(profileChoiceBox.getValue())).findFirst().orElse(null);
+		if (auxProf == null) {
+			return;
+		}
+		if (profile == null) {
+			return;
+		}
+		profile.setActive(false);
+		profile = auxProf;
+		profile.setActive(true);
 		loadSaveListView();
 	}
 
