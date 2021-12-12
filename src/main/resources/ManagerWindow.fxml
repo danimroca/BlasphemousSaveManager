@@ -62,6 +62,11 @@
                   <Insets />
                </HBox.margin>
             </Button>
+            <Button mnemonicParsing="false" text="Rename" onAction="#openSaveNameChangeDialog">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </Button>
             <Button mnemonicParsing="false" text="Delete">
                <HBox.margin>
                   <Insets />

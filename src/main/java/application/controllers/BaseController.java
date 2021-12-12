@@ -2,6 +2,7 @@ package application.controllers;
 
 import application.model.Profile;
 import application.model.Profiles;
+import application.model.Save;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
@@ -106,6 +107,14 @@ public class BaseController {
         properties.put("savePath", path);
         savePropertiesFile();
         loadProperties();
+    }
+
+    protected boolean deleteSaveFile(Save save) {
+        return save.getSaveFile().delete();
+    }
+
+    protected boolean deleteBackupSaveFile(Save save) {
+        return save.getBackupSaveFile().delete();
     }
 
 }

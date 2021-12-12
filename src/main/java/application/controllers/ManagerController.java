@@ -120,6 +120,11 @@ public class ManagerController extends BaseController implements Initializable {
 		loadProfileChoiceBox();
 	}
 
+	private void closeSaveNameChangeWindowEvent(WindowEvent event) {
+		loadProfiles();
+		loadSaveListView();
+	}
+
 	public void selectProfile() {
 		Profile auxProf = null;
 		for (Profile prof1 : profiles) {
@@ -190,6 +195,20 @@ public class ManagerController extends BaseController implements Initializable {
 
 	}
 
+	public void deleteSave() {
+		Save save = (Save) saveListView.getSelectionModel().getSelectedItem();
+		if (save == null) {
+			return;
+		}
+		profile.removeSave(save);
+		deleteBackupSaveFile(save);
+		deleteSaveFile(save);
+
+		updateProfilesList();
+		loadSaveListView();
+		savesProfilesToXMLFile(profiles);
+	}
+
 	public void importSave() {
 		int saveSlotNumber = Integer.parseInt(saveSlotChoiceBox.getValue().toString())-1;
 
@@ -245,6 +264,28 @@ public class ManagerController extends BaseController implements Initializable {
 	private void updateProfilesList() {
 		profiles.remove(profile);
 		profiles.add(profile);
+	}
+
+	public void openSaveNameChangeDialog() {
+		if (saveListView.getSelectionModel().getSelectedItem() == null) {
+			return;
+		}
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/ChangeName.fxml"));
+			Scene scene = new Scene(loader.load(), 600, 400);
+			scene.getStylesheets().add(getClass().getResource("/application.css").toExternalForm());
+			Stage stage = new Stage();
+			stage.setScene(scene);
+			stage.initModality(Modality.APPLICATION_MODAL);
+			stage.setTitle("Save change name");
+			ChangeNameController changeNameController = loader.getController();
+			changeNameController.setProfiles(profiles);
+			changeNameController.setSave((Save) saveListView.getSelectionModel().getSelectedItem());
+			stage.show();
+			scene.getWindow().addEventFilter(WindowEvent.WINDOW_HIDING, this::closeSaveNameChangeWindowEvent);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

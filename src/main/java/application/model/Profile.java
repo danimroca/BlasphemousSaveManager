@@ -1,11 +1,10 @@
 package application.model;
 
+import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
-import javax.xml.bind.annotation.*;
 
 @XmlRootElement(name = "profile")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -37,6 +36,9 @@ public class Profile implements Serializable {
 			saves = new ArrayList<>();
 		}
 		saves.add(save);
+	}
+	public void removeSave(Save save) {
+		saves.remove(save);
 	}
 	public void removeSave(String saveName) {
 		saves.removeIf(save -> save.getName().equals(saveName));
