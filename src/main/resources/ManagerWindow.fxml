@@ -57,7 +57,7 @@
                   <Insets />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" text="Load">
+            <Button mnemonicParsing="false" text="Load" onAction="#loadSave">
                <HBox.margin>
                   <Insets />
                </HBox.margin>

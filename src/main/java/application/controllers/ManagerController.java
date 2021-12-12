@@ -46,15 +46,13 @@ public class ManagerController extends BaseController implements Initializable {
 		loadProperties();
 		loadProfiles();
 		loadProfileChoiceBox();
-
+		saveSlotChoiceBox.setValue(1);
 		saveSlotChoiceBox.setItems(FXCollections.observableArrayList("1","2","3"));
 
 		if (profile != null) {
 			profileChoiceBox.setValue(profile.getName());
 			saveSlotChoiceBox.setValue(profile.getSaveSlot());
 			loadSaveListView();
-		} else {
-			saveSlotChoiceBox.setValue(1);
 		}
 
 	}
@@ -79,9 +77,12 @@ public class ManagerController extends BaseController implements Initializable {
 				jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 				profiles = ((Profiles) jaxbUnmarshaller.unmarshal(new File(getProfilesFilePath()))).getProfiles();
 			} catch (Exception e) {
-				e.printStackTrace();
+				if (!(e instanceof IllegalArgumentException)) {
+					e.printStackTrace();
+				}
 			}
-		} else {
+		}
+		if (profiles == null) {
 			profiles = new ArrayList<>();
 		}
 		if (!profiles.isEmpty()) {
@@ -212,6 +213,9 @@ public class ManagerController extends BaseController implements Initializable {
 	public void importSave() {
 		int saveSlotNumber = Integer.parseInt(saveSlotChoiceBox.getValue().toString())-1;
 
+		String saveFileName = "savegame_" + saveSlotNumber + ".save";
+		String saveBackupFileName = "savegame_" + saveSlotNumber + ".save_backup";
+
 		String saveFile = getSavePath() + File.separator + "savegame_" + saveSlotNumber + ".save";
 		String saveBackupFile = getSavePath()  + File.separator +  "savegame_" + saveSlotNumber + ".save_backup";
 
@@ -241,14 +245,29 @@ public class ManagerController extends BaseController implements Initializable {
 
 		Save save = new Save();
 		save.setName(saveGameFolder.getName());
-		save.setSaveFile(f);
-		save.setBackupSaveFile(f2);
+		save.setSaveFile(new File(saveGameFolder + File.separator + saveFileName));
+		save.setBackupSaveFile(new File(saveGameFolder + File.separator + saveBackupFileName));
 		save.setOrder(profile.getSaves().size()-1);
 
 		profile.addSave(save);
 		updateProfilesList();
 		loadSaveListView();
 		savesProfilesToXMLFile(profiles);
+	}
+
+	public void loadSave() throws IOException {
+		Save save = (Save) saveListView.getSelectionModel().getSelectedItem();
+		if (save == null) {
+			return;
+		}
+
+		int saveSlotNumber = Integer.parseInt(saveSlotChoiceBox.getValue().toString())-1;
+
+		String saveFileName = "savegame_" + saveSlotNumber + ".save";
+		String saveBackupFileName = "savegame_" + saveSlotNumber + ".save_backup";
+
+		FileUtils.copyFile(save.getSaveFile(), new File(getSavePath() + File.separator + saveFileName));
+		FileUtils.copyFile(save.getBackupSaveFile(), new File(getSavePath() + File.separator + saveBackupFileName));
 	}
 
 	private File generateSaveGameFolder(int i) {
