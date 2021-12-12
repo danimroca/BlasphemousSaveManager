@@ -196,14 +196,14 @@ public class ManagerController extends BaseController implements Initializable {
 
 	}
 
-	public void deleteSave() {
+	public void deleteSave() throws IOException {
 		Save save = (Save) saveListView.getSelectionModel().getSelectedItem();
 		if (save == null) {
 			return;
 		}
 		profile.removeSave(save);
-		deleteBackupSaveFile(save);
-		deleteSaveFile(save);
+
+		FileUtils.deleteDirectory(save.getSaveFile().getParentFile());
 
 		updateProfilesList();
 		loadSaveListView();

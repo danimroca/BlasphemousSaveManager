@@ -1,12 +1,11 @@
 package application.model;
 
-import java.io.File;
-import java.io.Serializable;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import java.io.File;
+import java.io.Serializable;
 
 @XmlRootElement(name = "save")
 @XmlAccessorType(XmlAccessType.PROPERTY)
@@ -50,4 +49,15 @@ public class Save implements Serializable {
 	public String toString() {
 		return name;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Save save = (Save) o;
+		return name.equals(save.name) &&
+				saveFile.equals(save.saveFile) &&
+				backupSaveFile.equals(save.backupSaveFile);
+	}
+
 }
