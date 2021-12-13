@@ -4,13 +4,15 @@ import application.model.Profile;
 import application.model.Profiles;
 import application.model.Save;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -54,7 +56,6 @@ public class ManagerController extends BaseController implements Initializable {
 			saveSlotChoiceBox.setValue(profile.getSaveSlot());
 			loadSaveListView();
 		}
-
 	}
 
 	private void loadProfileChoiceBox() {
@@ -159,6 +160,33 @@ public class ManagerController extends BaseController implements Initializable {
 
 	private void loadSaveListView() {
 		saveListView.setItems(FXCollections.observableArrayList(profile.getSaves()));
+		final ContextMenu saveListMenuItem = new ContextMenu();
+		MenuItem renameMenuItem = new MenuItem("Rename");
+		renameMenuItem.setOnAction(event -> openSaveNameChangeDialog());
+		MenuItem deleteMenuItem = new MenuItem("Delete");
+		deleteMenuItem.setOnAction(event -> {
+			try {
+				deleteSave();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
+		saveListMenuItem.getItems().add(renameMenuItem);
+		saveListMenuItem.getItems().add(deleteMenuItem);
+
+		saveListView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				if (saveListMenuItem.isShowing()) {
+					if (event.getButton().equals(MouseButton.PRIMARY) || event.getButton().equals(MouseButton.SECONDARY)) {
+						saveListMenuItem.hide();
+					}
+				} else if (event.getButton().equals(MouseButton.SECONDARY) || (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2)) {
+					saveListMenuItem.show(saveListView, event.getScreenX(), event.getScreenY());
+				}
+
+			}
+		});
 	}
 
 	public void replaceSave() throws IOException {
@@ -193,12 +221,17 @@ public class ManagerController extends BaseController implements Initializable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	public void deleteSave() throws IOException {
 		Save save = (Save) saveListView.getSelectionModel().getSelectedItem();
 		if (save == null) {
+			return;
+		}
+		Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete the save?", ButtonType.YES, ButtonType.NO);
+		alert.showAndWait();
+
+		if (alert.getResult() == ButtonType.NO) {
 			return;
 		}
 		profile.removeSave(save);
