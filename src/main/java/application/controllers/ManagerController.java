@@ -3,8 +3,9 @@ package application.controllers;
 import application.model.Profile;
 import application.model.Profiles;
 import application.model.Save;
+import application.utils.SaveComparatorByDate;
+import application.utils.SaveComparatorByName;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -40,6 +41,8 @@ public class ManagerController extends BaseController implements Initializable {
 	private ListView saveListView;
 	@FXML
 	private ChoiceBox saveSlotChoiceBox;
+	@FXML
+	private ChoiceBox orderChoiceBox;
 
 
 	@Override
@@ -47,6 +50,7 @@ public class ManagerController extends BaseController implements Initializable {
 
 		loadProperties();
 		loadProfiles();
+		loadOrderChoiceBox();
 		loadProfileChoiceBox();
 		saveSlotChoiceBox.setValue(1);
 		saveSlotChoiceBox.setItems(FXCollections.observableArrayList("1","2","3"));
@@ -55,6 +59,9 @@ public class ManagerController extends BaseController implements Initializable {
 			profileChoiceBox.setValue(profile.getName());
 			saveSlotChoiceBox.setValue(profile.getSaveSlot());
 			loadSaveListView();
+			if (!profile.getSaves().isEmpty()) {
+				orderSaves();
+			}
 		}
 	}
 
@@ -67,6 +74,33 @@ public class ManagerController extends BaseController implements Initializable {
 			profile = profiles.get(0);
 			profileChoiceBox.setValue(profile.getName());
 		}
+	}
+
+	private void loadOrderChoiceBox() {
+		orderChoiceBox.getItems().clear();
+		orderChoiceBox.setItems(FXCollections.observableArrayList("Date","Name"));
+		orderChoiceBox.setValue("Date");
+	}
+
+	public void orderSaves() {
+		if (profile.getSaves().isEmpty()) {
+			Alert alert = new Alert(Alert.AlertType.WARNING,"There's no save in the current profile.");
+			alert.showAndWait();
+			return;
+		}
+		switch (orderChoiceBox.getValue().toString()) {
+			case "Date" :
+				profile.getSaves().sort(new SaveComparatorByDate());
+				break;
+			case "Name" :
+				profile.getSaves().sort(new SaveComparatorByName());
+				break;
+			default:
+				break;
+		}
+		updateProfilesList();
+		loadSaveListView();
+		savesProfilesToXMLFile(profiles);
 	}
 
 	private void loadProfiles() {
@@ -102,7 +136,9 @@ public class ManagerController extends BaseController implements Initializable {
 			stage.setTitle("Profile Configuration");
 			ProfileController profileController = loader.getController();
 			profileController.setProfiles(profiles);
-			profileController.loadProfilesToGUI();
+			if (!properties.entrySet().isEmpty()) {
+				profileController.loadProfilesToGUI();
+			}
 			stage.show();
 			scene.getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, this::closeProfileWindowEvent);
 		} catch (Exception e) {

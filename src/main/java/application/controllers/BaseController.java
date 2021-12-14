@@ -5,6 +5,7 @@ import application.model.Profiles;
 import application.model.Save;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import org.apache.commons.lang3.SystemUtils;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
@@ -44,25 +45,30 @@ public class BaseController {
                 e.printStackTrace();
             }
         }
-        String appDataPath = System.getenv("APPDATA");
         try {
             properties.load(new FileInputStream(
-                    appDataPath + File.separator + TITLE + File.separator + PROPERTIES_FILENAME));
+                    getUserPropertiesFolderPath() + File.separator + PROPERTIES_FILENAME));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     protected void savePropertiesFile() throws IOException {
-        String appDataPath = System.getenv("APPDATA");
-        File f = new File(appDataPath + File.separator + TITLE + File.separator + PROPERTIES_FILENAME);
+        File f = new File(getUserPropertiesFolderPath()+ File.separator + PROPERTIES_FILENAME);
         if (!f.exists()) {
-            new File(appDataPath + File.separator + TITLE).mkdirs();
+            new File(getUserPropertiesFolderPath()).mkdirs();
             f.createNewFile();
         }
-        FileOutputStream outputStream = new FileOutputStream(appDataPath + File.separator + TITLE + File.separator + PROPERTIES_FILENAME);
+        FileOutputStream outputStream = new FileOutputStream(getUserPropertiesFolderPath() + File.separator + PROPERTIES_FILENAME);
         properties.store(outputStream, "Saving properties file");
         outputStream.close();
+    }
+
+    private String getUserPropertiesFolderPath() {
+        if (SystemUtils.IS_OS_WINDOWS) {
+            return System.getenv("APPDATA") + File.separator + TITLE ;
+        }
+        return System.getProperty("user.home") + File.separator + "." + TITLE ;
     }
 
     protected void savesProfilesToXMLFile(List<Profile> profileList) {
@@ -80,8 +86,7 @@ public class BaseController {
     }
 
     protected boolean isPropertiesFileExists() {
-        String appDataPath = System.getenv("APPDATA");
-        File f = new File(appDataPath + File.separator + TITLE + File.separator + PROPERTIES_FILENAME);
+        File f = new File(getUserPropertiesFolderPath() + File.separator + PROPERTIES_FILENAME);
         return f.exists();
     }
 
