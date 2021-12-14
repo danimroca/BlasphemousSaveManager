@@ -32,10 +32,10 @@
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sort" GridPane.rowIndex="2" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Profile" />
-                  <TextField fx:id="profileFilterInput" promptText="filter" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                  <TextField fx:id="profileFilterInput" promptText="filter" GridPane.columnIndex="2" GridPane.rowIndex="2" visible="false" />
                   <ChoiceBox fx:id="profileChoiceBox" onAction="#selectProfile" prefWidth="150.0" GridPane.columnIndex="1" />
-                  <ChoiceBox fx:id="orderChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <Button fx:id="botonEditarPerfil" mnemonicParsing="false" onAction="#openProfileWindow" text="Edit profiles" GridPane.columnIndex="2" />
+                  <ChoiceBox fx:id="orderChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" onAction="#orderSaves" />
+                  <Button mnemonicParsing="false" onAction="#openProfileWindow" text="Edit profiles" GridPane.columnIndex="2" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Save Slot" GridPane.rowIndex="1" />
                   <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="saveSlotChoiceBox" onAction="#selectSaveSlot"/>
                </children>
@@ -48,31 +48,16 @@
       <HBox alignment="CENTER">
          <children>
             <Button mnemonicParsing="false" onAction="#importSave" text="Import">
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin>
             </Button>
             <Button mnemonicParsing="false" text="Replace" onAction="#replaceSave">
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin>
             </Button>
             <Button mnemonicParsing="false" text="Load" onAction="#loadSave">
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin>
             </Button>
             <Button mnemonicParsing="false" text="Rename" onAction="#openSaveNameChangeDialog">
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin>
             </Button>
             <Button mnemonicParsing="false" text="Delete" onAction="#deleteSave">
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" text="Settings" />
+<!--            <Button mnemonicParsing="false" text="Settings" />-->
          </children>
       </HBox>
    </bottom>

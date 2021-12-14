@@ -14,7 +14,7 @@ public class SaveComparatorByDate implements Comparator<Save> {
         BasicFileAttributes attr2 = null;
         try {
             attr1 = Files.readAttributes(o1.getSaveFile().toPath(), BasicFileAttributes.class);
-            attr2 = Files.readAttributes(o1.getSaveFile().toPath(), BasicFileAttributes.class);
+            attr2 = Files.readAttributes(o2.getSaveFile().toPath(), BasicFileAttributes.class);
         } catch (IOException e) {
             e.printStackTrace();
         }

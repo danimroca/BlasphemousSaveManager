@@ -13,7 +13,7 @@ public class Launcher extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			Parent root = FXMLLoader.load(getClass().getResource("/ManagerWindow.fxml"));
-			Scene scene = new Scene(root,600,800);
+			Scene scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("/application.css").toExternalForm());
 
 			primaryStage.setTitle("Blasphemous Save Manager");

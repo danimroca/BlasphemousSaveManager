@@ -43,6 +43,8 @@ public class ManagerController extends BaseController implements Initializable {
 	private ChoiceBox saveSlotChoiceBox;
 	@FXML
 	private ChoiceBox orderChoiceBox;
+	@FXML
+	private TextField profileFilterInput;
 
 
 	@Override
@@ -83,9 +85,7 @@ public class ManagerController extends BaseController implements Initializable {
 	}
 
 	public void orderSaves() {
-		if (profile.getSaves().isEmpty()) {
-			Alert alert = new Alert(Alert.AlertType.WARNING,"There's no save in the current profile.");
-			alert.showAndWait();
+		if (profile == null || profile.getSaves().isEmpty()) {
 			return;
 		}
 		switch (orderChoiceBox.getValue().toString()) {
@@ -104,7 +104,7 @@ public class ManagerController extends BaseController implements Initializable {
 	}
 
 	private void loadProfiles() {
-		if (getProfilePath() != null && !getProfilePath().isEmpty()) {
+		if (getProfilePath() != null && !getProfilePath().isEmpty() && new File(getProfilePath()).exists()) {
 			//we load the profiles and then load the saves
 			Unmarshaller jaxbUnmarshaller = null;
 			try {

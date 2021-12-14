@@ -23,7 +23,7 @@ public class ChangeNameController extends BaseController {
 
     public void accept() throws IOException {
         loadProperties();
-        String saveName = saveNameTextField.getText();
+        String saveName = saveNameTextField.getText().trim();
         File oldSaveName = null;
         File f = null;
         File f2 = null;
