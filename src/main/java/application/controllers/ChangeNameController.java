@@ -44,7 +44,9 @@ public class ChangeNameController extends BaseController {
         }
 
         FileUtils.moveFileToDirectory(f, saveFolder, false);
-        FileUtils.moveFileToDirectory(f2, saveFolder, false);
+        if (f2.exists()) {
+            FileUtils.moveFileToDirectory(f2, saveFolder, false);
+        }
         FileUtils.deleteDirectory(oldSaveName.getParentFile());
 
 
@@ -52,7 +54,9 @@ public class ChangeNameController extends BaseController {
             for (Save s:p.getSaves()) {
                 if (s.equals(save)) {
                     s.setSaveFile(new File(saveFolder + File.separator + f.getName()));
-                    s.setBackupSaveFile(new File(saveFolder + File.separator + f2.getName()));
+                    if (f2.exists()) {
+                        s.setBackupSaveFile(new File(saveFolder + File.separator + f2.getName()));
+                    }
                 }
             }
         }

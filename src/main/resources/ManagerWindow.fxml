@@ -62,7 +62,7 @@
       </HBox>
    </bottom>
    <top>
-      <Pane prefHeight="41.0" prefWidth="322.0" BorderPane.alignment="CENTER">
+      <Pane prefHeight="41.0" prefWidth="322.0" BorderPane.alignment="CENTER" visible="false">
          <children>
             <Text layoutX="150.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="HEader" />
          </children>

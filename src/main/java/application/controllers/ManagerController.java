@@ -253,7 +253,9 @@ public class ManagerController extends BaseController implements Initializable {
 
 		try {
 			FileUtils.copyFile(f, saveFilePath.toFile());
-			FileUtils.copyFile(f2, backupSaveFilePath.toFile());
+			if (f2.exists()) {
+				FileUtils.copyFile(f2, backupSaveFilePath.toFile());
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -307,7 +309,9 @@ public class ManagerController extends BaseController implements Initializable {
 
 		try {
 			FileUtils.copyToDirectory(f, saveGameFolder);
-			FileUtils.copyToDirectory(f2, saveGameFolder);
+			if (f2.exists()) {
+				FileUtils.copyToDirectory(f2, saveGameFolder);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -336,7 +340,9 @@ public class ManagerController extends BaseController implements Initializable {
 		String saveBackupFileName = "savegame_" + saveSlotNumber + ".save_backup";
 
 		FileUtils.copyFile(save.getSaveFile(), new File(getSavePath() + File.separator + saveFileName));
-		FileUtils.copyFile(save.getBackupSaveFile(), new File(getSavePath() + File.separator + saveBackupFileName));
+		if (save.getBackupSaveFile().exists()) {
+			FileUtils.copyFile(save.getBackupSaveFile(), new File(getSavePath() + File.separator + saveBackupFileName));
+		}
 	}
 
 	private File generateSaveGameFolder(int i) {
