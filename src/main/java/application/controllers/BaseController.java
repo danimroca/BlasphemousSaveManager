@@ -24,16 +24,12 @@ public class BaseController {
 
     protected Properties properties = new Properties();
 
-    protected Stage getMainStage() {
-        return (Stage) Stage.getWindows().stream().filter(window -> ((Stage) window).getTitle().equals("Blasphemous Save Manager")).findFirst().get();
+    protected void closeCurrentStage(Window window) {
+        ((Stage) window).close();
     }
 
-    protected void closeCurrentStage() {
-        ((Stage) Stage.getWindows().stream().filter(Window::isFocused).findFirst().get()).close();
-    }
-
-    protected Stage getCurrentStage() {
-        return (Stage) Stage.getWindows().stream().filter(Window::isFocused).findFirst().get();
+    protected Stage getCurrentStage(Window window) {
+        return (Stage) window;
     }
 
     protected void loadProperties() {

@@ -18,7 +18,7 @@ public class ChangeNameController extends BaseController {
     private Save save;
 
     public void cancel() {
-        closeCurrentStage();
+        closeCurrentStage(saveNameTextField.getScene().getWindow());
     }
 
     public void accept() throws IOException {
@@ -62,7 +62,7 @@ public class ChangeNameController extends BaseController {
         }
 
         savesProfilesToXMLFile(profiles);
-        closeCurrentStage();
+        closeCurrentStage(saveNameTextField.getScene().getWindow());
     }
 
     public void setProfiles(List<Profile> profiles) {

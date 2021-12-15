@@ -54,7 +54,7 @@ public class ProfileController extends BaseController {
 	public void openSaveDirectoryChooser() throws IOException {
 		DirectoryChooser directoryChooser = new DirectoryChooser();
 		directoryChooser.setTitle("Save file location");
-		saveLocation = directoryChooser.showDialog(getCurrentStage());
+		saveLocation = directoryChooser.showDialog(getCurrentStage(saveLocationInput.getScene().getWindow()));
 
 		if (saveLocation != null && saveLocation.exists()) {
 			saveLocationInput.setText(saveLocation.getAbsolutePath());
@@ -66,7 +66,7 @@ public class ProfileController extends BaseController {
 	public void openProfileDirectoryChooser() throws IOException {
 		DirectoryChooser directoryChooser = new DirectoryChooser();
 		directoryChooser.setTitle("Profiles location");
-		profileLocation = directoryChooser.showDialog(getCurrentStage());
+		profileLocation = directoryChooser.showDialog(getCurrentStage(profileLocationInput.getScene().getWindow()));
 
 		if (profileLocation != null && profileLocation.exists()) {
 			profileLocationInput.setText(profileLocation.getAbsolutePath());
