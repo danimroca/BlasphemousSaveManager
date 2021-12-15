@@ -3,31 +3,33 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
-<AnchorPane prefHeight="400" prefWidth="400" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.ProfileController">
+<?scenebuilder-stylesheet /application.css?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.ProfileController">
    <children>
-      <VBox prefHeight="400" prefWidth="400">
+      <VBox>
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Save location" />
-            <HBox prefHeight="100" prefWidth="150">
+            <HBox>
                <children>
                   <TextField fx:id="saveLocationInput" disable="true"/>
                   <Button onAction="#openSaveDirectoryChooser" mnemonicParsing="false" text="Browse" />
                </children>
             </HBox>
             <Text  strokeType="OUTSIDE" strokeWidth="0.0" text="Profiles directory" />
-            <HBox prefHeight="100" prefWidth="300">
+            <HBox>
                <children>
                   <TextField fx:id="profileLocationInput" disable="true"/>
                   <Button onAction="#openProfileDirectoryChooser" mnemonicParsing="false" text="Browse" />
                </children>
             </HBox>
-            <Separator prefWidth="200.0" />
+            <Separator/>
             <Pane fx:id="profileListPane">
                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-               <HBox prefHeight="100.0" prefWidth="200.0">
+               <HBox>
                   <children>
-                     <ListView prefHeight="200.0" prefWidth="200.0" fx:id="profileList" />
-                     <VBox prefHeight="200.0" prefWidth="100.0">
+                     <ListView fx:id="profileList" />
+                     <VBox styleClass="profileListButtonBox">
                         <children>
                            <Button onAction="#newProfile" mnemonicParsing="false" text="New" />
                            <Button onAction="#editProfile" mnemonicParsing="false" text="Edit" />
@@ -38,11 +40,11 @@
                </HBox>
             </Pane>
             <Separator/>
-            <VBox prefHeight="200.0" prefWidth="100.0" visible="false" fx:id="editProfileBox">
+            <VBox visible="false" fx:id="editProfileBox">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Profile Name" />
                   <TextField fx:id="profileNameInput" />
-                  <HBox prefHeight="100.0" prefWidth="200.0">
+                  <HBox>
                      <children>
                         <Button mnemonicParsing="false" text="Accept" onAction="#saveProfile"/>
                         <Button mnemonicParsing="false" text="Cancel" onAction="#closeProfileNameMenu"/>

@@ -8,13 +8,13 @@
 <?import javafx.scene.text.Text?>
 
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.ChangeNameController">
+<AnchorPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.ChangeNameController">
    <children>
-      <VBox prefHeight="200.0" prefWidth="100.0">
+      <VBox>
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Enter the name for the save" />
             <TextField fx:id="saveNameTextField"/>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <HBox>
                <children>
                   <Button mnemonicParsing="false" text="Accept" onAction="#accept"/>
                   <Button mnemonicParsing="false" text="Cancel" onAction="#cancel"/>
