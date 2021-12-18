@@ -122,10 +122,7 @@ public class ProfileController extends BaseController {
 	}
 
 	public void saveProfile() {
-		profile.setActive(true);
-		profile.setSaves(new ArrayList<>());
 		profile.setName(profileNameInput.getText());
-
 		if (profiles.contains(profile)) {
 			updateProfiles();
 		} else {
