@@ -54,9 +54,7 @@ public class ChangeNameController extends BaseController {
             for (Save s:p.getSaves()) {
                 if (s.equals(save)) {
                     s.setSaveFile(new File(saveFolder + File.separator + f.getName()));
-                    if (f2.exists()) {
-                        s.setBackupSaveFile(new File(saveFolder + File.separator + f2.getName()));
-                    }
+                    s.setBackupSaveFile(new File(saveFolder + File.separator + f2.getName()));
                 }
             }
         }
