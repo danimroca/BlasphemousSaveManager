@@ -54,27 +54,23 @@ public class ManagerController extends BaseController implements Initializable {
 		loadProfiles();
 		loadOrderChoiceBox();
 		loadProfileChoiceBox();
-		saveSlotChoiceBox.setValue(1);
-		saveSlotChoiceBox.setItems(FXCollections.observableArrayList("1","2","3"));
+		loadSaves();
 
+	}
+
+	private void loadSaves() {
 		if (profile != null) {
-			profileChoiceBox.setValue(profile.getName());
-			saveSlotChoiceBox.setValue(profile.getSaveSlot());
+			saveSlotChoiceBox.setItems(FXCollections.observableArrayList("1","2","3"));
+			saveSlotChoiceBox.getSelectionModel().select(profile.getSaveSlot()-1);
 			loadSaveListView();
-			if (!profile.getSaves().isEmpty()) {
-				orderSaves();
-			}
 		}
 	}
 
 	private void loadProfileChoiceBox() {
 		profileChoiceBox.getItems().clear();
 		profileChoiceBox.setItems(FXCollections.observableArrayList(profiles));
-		if (profiles.isEmpty()) {
-			profile = null;
-		} else {
-			profile = profiles.get(0);
-			profileChoiceBox.setValue(profile.getName());
+		if (profile != null) {
+			profileChoiceBox.getSelectionModel().select(profile);
 		}
 	}
 
@@ -120,7 +116,7 @@ public class ManagerController extends BaseController implements Initializable {
 		if (profiles == null) {
 			profiles = new ArrayList<>();
 		}
-		if (!profiles.isEmpty()) {
+		if (profile == null && !profiles.isEmpty()) {
 			profile = profiles.stream().filter(Profile::isActive).findFirst().get();
 		}
 	}
@@ -164,9 +160,12 @@ public class ManagerController extends BaseController implements Initializable {
 	}
 
 	public void selectProfile() {
+		if (profileChoiceBox.getSelectionModel().getSelectedItem() == null) {
+			return;
+		}
 		Profile auxProf = null;
 		for (Profile prof1 : profiles) {
-			if (prof1.getName().equals(profileChoiceBox.getValue().toString())) {
+			if (prof1.getName().equals(profileChoiceBox.getSelectionModel().getSelectedItem().toString())) {
 				auxProf = prof1;
 			}
 		}
@@ -179,6 +178,7 @@ public class ManagerController extends BaseController implements Initializable {
 		profile = auxProf;
 		profiles.forEach(Profile::deactivateProfile);
 		profile.setActive(true);
+		saveSlotChoiceBox.getSelectionModel().select(profile.getSaveSlot()-1);
 		updateProfilesList();
 		savesProfilesToXMLFile(profiles);
 		loadSaveListView();
@@ -188,7 +188,7 @@ public class ManagerController extends BaseController implements Initializable {
 		if (profile == null) {
 			return;
 		}
-		int saveSlot = Integer.parseInt(saveSlotChoiceBox.getValue().toString());
+		int saveSlot = Integer.parseInt(saveSlotChoiceBox.getSelectionModel().getSelectedItem().toString());
 		profile.setSaveSlot(saveSlot);
 		updateProfilesList();
 		savesProfilesToXMLFile(profiles);
@@ -210,18 +210,15 @@ public class ManagerController extends BaseController implements Initializable {
 		saveListMenuItem.getItems().add(renameMenuItem);
 		saveListMenuItem.getItems().add(deleteMenuItem);
 
-		saveListView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				if (saveListMenuItem.isShowing()) {
-					if (event.getButton().equals(MouseButton.PRIMARY) || event.getButton().equals(MouseButton.SECONDARY)) {
-						saveListMenuItem.hide();
-					}
-				} else if (event.getButton().equals(MouseButton.SECONDARY) || (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2)) {
-					saveListMenuItem.show(saveListView, event.getScreenX(), event.getScreenY());
+		saveListView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+			if (saveListMenuItem.isShowing()) {
+				if (event.getButton().equals(MouseButton.PRIMARY) || event.getButton().equals(MouseButton.SECONDARY)) {
+					saveListMenuItem.hide();
 				}
-
+			} else if (event.getButton().equals(MouseButton.SECONDARY) || (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2)) {
+				saveListMenuItem.show(saveListView, event.getScreenX(), event.getScreenY());
 			}
+
 		});
 	}
 
@@ -231,7 +228,7 @@ public class ManagerController extends BaseController implements Initializable {
 			return;
 		}
 
-		int saveSlotNumber = Integer.parseInt(saveSlotChoiceBox.getValue().toString())-1;
+		int saveSlotNumber = Integer.parseInt(saveSlotChoiceBox.getSelectionModel().getSelectedItem().toString())-1;
 
 		String saveFile = getSavePath() + File.separator + "savegame_" + saveSlotNumber + ".save";
 		String saveBackupFile = getSavePath()  + File.separator +  "savegame_" + saveSlotNumber + ".save_backup";
@@ -282,7 +279,7 @@ public class ManagerController extends BaseController implements Initializable {
 	}
 
 	public void importSave() {
-		int saveSlotNumber = Integer.parseInt(saveSlotChoiceBox.getValue().toString())-1;
+		int saveSlotNumber = Integer.parseInt(saveSlotChoiceBox.getSelectionModel().getSelectedItem().toString())-1;
 
 		String saveFileName = "savegame_" + saveSlotNumber + ".save";
 		String saveBackupFileName = "savegame_" + saveSlotNumber + ".save_backup";
@@ -334,7 +331,7 @@ public class ManagerController extends BaseController implements Initializable {
 			return;
 		}
 
-		int saveSlotNumber = Integer.parseInt(saveSlotChoiceBox.getValue().toString())-1;
+		int saveSlotNumber = Integer.parseInt(saveSlotChoiceBox.getSelectionModel().getSelectedItem().toString())-1;
 
 		String saveFileName = "savegame_" + saveSlotNumber + ".save";
 		String saveBackupFileName = "savegame_" + saveSlotNumber + ".save_backup";
