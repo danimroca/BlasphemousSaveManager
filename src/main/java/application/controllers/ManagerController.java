@@ -6,7 +6,6 @@ import application.model.Save;
 import application.utils.SaveComparatorByDate;
 import application.utils.SaveComparatorByName;
 import javafx.collections.FXCollections;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -117,7 +116,7 @@ public class ManagerController extends BaseController implements Initializable {
 			profiles = new ArrayList<>();
 		}
 		if (profile == null && !profiles.isEmpty()) {
-			profile = profiles.stream().filter(Profile::isActive).findFirst().get();
+			profile = profiles.stream().filter(Profile::isActive).findFirst().orElse(profiles.isEmpty() ? null : profiles.get(0));
 		}
 	}
 
@@ -223,6 +222,9 @@ public class ManagerController extends BaseController implements Initializable {
 	}
 
 	public void replaceSave() throws IOException {
+		if (profile == null) {
+			return;
+		}
 		Save save = (Save) saveListView.getSelectionModel().getSelectedItem();
 		if (save == null) {
 			return;
@@ -259,6 +261,9 @@ public class ManagerController extends BaseController implements Initializable {
 	}
 
 	public void deleteSave() throws IOException {
+		if (profile == null) {
+			return;
+		}
 		Save save = (Save) saveListView.getSelectionModel().getSelectedItem();
 		if (save == null) {
 			return;
@@ -279,6 +284,9 @@ public class ManagerController extends BaseController implements Initializable {
 	}
 
 	public void importSave() {
+		if (profile == null) {
+			return;
+		}
 		int saveSlotNumber = Integer.parseInt(saveSlotChoiceBox.getSelectionModel().getSelectedItem().toString())-1;
 
 		String saveFileName = "savegame_" + saveSlotNumber + ".save";
@@ -326,6 +334,9 @@ public class ManagerController extends BaseController implements Initializable {
 	}
 
 	public void loadSave() throws IOException {
+		if (profile == null) {
+			return;
+		}
 		Save save = (Save) saveListView.getSelectionModel().getSelectedItem();
 		if (save == null) {
 			return;
@@ -362,16 +373,16 @@ public class ManagerController extends BaseController implements Initializable {
 			return;
 		}
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/ChangeName.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/SaveChangeName.fxml"));
 			Scene scene = new Scene(loader.load(), 600, 400);
 			scene.getStylesheets().add(getClass().getResource("/application.css").toExternalForm());
 			Stage stage = new Stage();
 			stage.setScene(scene);
 			stage.initModality(Modality.APPLICATION_MODAL);
 			stage.setTitle("Save change name");
-			ChangeNameController changeNameController = loader.getController();
-			changeNameController.setProfiles(profiles);
-			changeNameController.setSave((Save) saveListView.getSelectionModel().getSelectedItem());
+			SaveChangeNameController saveChangeNameController = loader.getController();
+			saveChangeNameController.setProfiles(profiles);
+			saveChangeNameController.setSave((Save) saveListView.getSelectionModel().getSelectedItem());
 			stage.show();
 			scene.getWindow().addEventFilter(WindowEvent.WINDOW_HIDING, this::closeSaveNameChangeWindowEvent);
 		} catch (Exception e) {

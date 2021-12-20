@@ -10,7 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-public class ChangeNameController extends BaseController {
+public class SaveChangeNameController extends BaseController {
 
     @FXML
     private TextField saveNameTextField;
