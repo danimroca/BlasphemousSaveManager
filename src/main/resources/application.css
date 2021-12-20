@@ -5,9 +5,19 @@
     -fx-padding: 15px;
 }
 
-.saves-button-hbox {
+.button-hbox {
     -fx-spacing: 10px;
     -fx-padding: 15px;
+}
+
+.save-rename-vbox {
+    -fx-spacing: 10px;
+    -fx-padding: 15px;
+}
+
+.text-input {
+    -fx-min-width: 300px;
+    -fx-pref-width: 300px;
 }
 
 .clickable {

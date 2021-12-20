@@ -388,26 +388,16 @@ public class ManagerController extends BaseController implements Initializable {
 		if (saveListView.getSelectionModel().getSelectedItem() == null) {
 			return;
 		}
-		Alert alert = new Alert(Alert.AlertType.NONE);
-		alert.setTitle("Delete save");
-		alert.setHeaderText("Are you sure you want to delete the '" + saveListView.getSelectionModel().getSelectedItem().getName() + "' save?");
-		alert.getButtonTypes().add(ButtonType.YES);
-		alert.getButtonTypes().add(ButtonType.NO);
-		alert.setResizable(false);
-		alert.showAndWait();
-
-		if (alert.getResult() == ButtonType.NO) {
-			return;
-		}
 
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/SaveChangeName.fxml"));
-			Scene scene = new Scene(loader.load(), 600, 400);
+			Scene scene = new Scene(loader.load(), 450, 200);
 			scene.getStylesheets().add(getClass().getResource("/application.css").toExternalForm());
 			Stage stage = new Stage();
 			stage.setScene(scene);
+			stage.setResizable(false);
 			stage.initModality(Modality.APPLICATION_MODAL);
-			stage.setTitle("Save change name");
+			stage.setTitle("Save rename");
 			SaveChangeNameController saveChangeNameController = loader.getController();
 			saveChangeNameController.setProfiles(profiles);
 			saveChangeNameController.setSave(saveListView.getSelectionModel().getSelectedItem());

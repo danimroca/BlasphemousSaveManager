@@ -3,6 +3,8 @@ package application.controllers;
 import application.model.Profile;
 import application.model.Save;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import org.apache.commons.io.FileUtils;
 
@@ -24,6 +26,18 @@ public class SaveChangeNameController extends BaseController {
     public void accept() throws IOException {
         String saveName = saveNameTextField.getText().trim();
         if (saveName.isEmpty()) {
+            return;
+        }
+
+        Alert alert = new Alert(Alert.AlertType.NONE);
+        alert.setTitle("Rename save");
+        alert.setHeaderText("Are you sure you want to rename the '" + saveName + "' save?");
+        alert.getButtonTypes().add(ButtonType.YES);
+        alert.getButtonTypes().add(ButtonType.NO);
+        alert.setResizable(false);
+        alert.showAndWait();
+
+        if (alert.getResult() == ButtonType.NO) {
             return;
         }
 

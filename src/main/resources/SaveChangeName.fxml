@@ -6,14 +6,15 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
-
 <AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.SaveChangeNameController">
    <children>
-      <VBox>
+      <VBox styleClass="save-rename-vbox">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Save name:" />
-            <TextField fx:id="saveNameTextField"/>
-            <HBox>
+            <HBox alignment="CENTER" styleClass="button-hbox">
+               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Save name:" />
+               <TextField fx:id="saveNameTextField" styleClass="text-input"/>
+            </HBox>
+            <HBox styleClass="button-hbox" alignment="CENTER">
                <children>
                   <Button mnemonicParsing="false" text="Accept" onAction="#accept"/>
                   <Button mnemonicParsing="false" text="Cancel" onAction="#cancel"/>
