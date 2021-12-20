@@ -232,6 +232,18 @@ public class ManagerController extends BaseController implements Initializable {
 			return;
 		}
 
+		Alert alert = new Alert(Alert.AlertType.NONE);
+		alert.setTitle("Replace save");
+		alert.setHeaderText("Are you sure you want to replace the '" + save.getName() + "' save?");
+		alert.getButtonTypes().add(ButtonType.YES);
+		alert.getButtonTypes().add(ButtonType.NO);
+		alert.setResizable(false);
+		alert.showAndWait();
+
+		if (alert.getResult() == ButtonType.NO) {
+			return;
+		}
+
 		int saveSlotNumber = Integer.parseInt(saveSlotChoiceBox.getSelectionModel().getSelectedItem().toString())-1;
 
 		String saveFile = getSavePath() + File.separator + "savegame_" + saveSlotNumber + ".save";
@@ -241,8 +253,8 @@ public class ManagerController extends BaseController implements Initializable {
 		File f2 = new File(saveBackupFile);
 
 		if (!f.exists()) {
-			Alert alert = new Alert(Alert.AlertType.WARNING,"There's no save files in that save slot.");
-			alert.showAndWait();
+			Alert alert2 = new Alert(Alert.AlertType.WARNING,"There's no save files in that save slot.");
+			alert2.showAndWait();
 			return;
 		}
 
@@ -267,7 +279,12 @@ public class ManagerController extends BaseController implements Initializable {
 		if (save == null) {
 			return;
 		}
-		Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete the save?", ButtonType.YES, ButtonType.NO);
+		Alert alert = new Alert(Alert.AlertType.NONE);
+		alert.setTitle("Delete save");
+		alert.setHeaderText("Are you sure you want to delete the '" + save.getName() + "' save?");
+		alert.getButtonTypes().add(ButtonType.YES);
+		alert.getButtonTypes().add(ButtonType.NO);
+		alert.setResizable(false);
 		alert.showAndWait();
 
 		if (alert.getResult() == ButtonType.NO) {
@@ -371,6 +388,18 @@ public class ManagerController extends BaseController implements Initializable {
 		if (saveListView.getSelectionModel().getSelectedItem() == null) {
 			return;
 		}
+		Alert alert = new Alert(Alert.AlertType.NONE);
+		alert.setTitle("Delete save");
+		alert.setHeaderText("Are you sure you want to delete the '" + saveListView.getSelectionModel().getSelectedItem().getName() + "' save?");
+		alert.getButtonTypes().add(ButtonType.YES);
+		alert.getButtonTypes().add(ButtonType.NO);
+		alert.setResizable(false);
+		alert.showAndWait();
+
+		if (alert.getResult() == ButtonType.NO) {
+			return;
+		}
+
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/SaveChangeName.fxml"));
 			Scene scene = new Scene(loader.load(), 600, 400);
