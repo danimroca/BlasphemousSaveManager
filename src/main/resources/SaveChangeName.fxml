@@ -11,7 +11,7 @@
    <children>
       <VBox>
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Enter the name for the save" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Save name:" />
             <TextField fx:id="saveNameTextField"/>
             <HBox>
                <children>

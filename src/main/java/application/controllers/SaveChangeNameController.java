@@ -22,45 +22,41 @@ public class SaveChangeNameController extends BaseController {
     }
 
     public void accept() throws IOException {
-        loadProperties();
         String saveName = saveNameTextField.getText().trim();
-        File oldSaveName = null;
-        File f = null;
-        File f2 = null;
+        if (saveName.isEmpty()) {
+            return;
+        }
+
+        loadProperties();
+
         for (Profile p:profiles) {
             for (Save s:p.getSaves()) {
                 if (s.equals(save)) {
-                    oldSaveName = s.getSaveFile();
-                    f = s.getSaveFile();
-                    f2 = s.getBackupSaveFile();
+
+                    File oldSaveName = s.getSaveFile();
+                    File f = s.getSaveFile();
+                    File f2 = s.getBackupSaveFile();
                     s.setName(saveName);
-                }
-            }
-        }
 
-        File saveFolder = new File(f.getParentFile().getParent() + File.separator + saveName);
-        if (!saveFolder.exists()) {
-            saveFolder.mkdir();
-        }
+                    File saveFolder = new File(f.getParentFile().getParent() + File.separator + saveName);
 
-        FileUtils.moveFileToDirectory(f, saveFolder, false);
-        if (f2.exists()) {
-            FileUtils.moveFileToDirectory(f2, saveFolder, false);
-        }
-        FileUtils.deleteDirectory(oldSaveName.getParentFile());
+                    FileUtils.moveFileToDirectory(f, saveFolder, true);
+                    if (f2.exists()) {
+                        FileUtils.moveFileToDirectory(f2, saveFolder, true);
+                    }
+                    FileUtils.deleteDirectory(oldSaveName.getParentFile());
 
-
-        for (Profile p:profiles) {
-            for (Save s:p.getSaves()) {
-                if (s.equals(save)) {
                     s.setSaveFile(new File(saveFolder + File.separator + f.getName()));
                     s.setBackupSaveFile(new File(saveFolder + File.separator + f2.getName()));
+
+                    savesProfilesToXMLFile(profiles);
+                    closeStage(saveNameTextField.getScene().getWindow());
+
+                    return;
                 }
             }
         }
 
-        savesProfilesToXMLFile(profiles);
-        closeStage(saveNameTextField.getScene().getWindow());
     }
 
     public void setProfiles(List<Profile> profiles) {

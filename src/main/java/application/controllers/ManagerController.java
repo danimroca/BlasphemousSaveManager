@@ -24,7 +24,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -196,6 +195,7 @@ public class ManagerController extends BaseController implements Initializable {
 	}
 
 	private void loadSaveListView() {
+		saveListView.getItems().clear();
 		saveListView.setItems(FXCollections.observableArrayList(profile.getSaves()));
 		final ContextMenu saveListMenuItem = new ContextMenu();
 		MenuItem renameMenuItem = new MenuItem("Rename");
