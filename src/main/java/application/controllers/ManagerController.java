@@ -246,16 +246,13 @@ public class ManagerController extends BaseController implements Initializable {
 			return;
 		}
 
-		Path saveFilePath = save.getSaveFile().toPath();
-		Path backupSaveFilePath = save.getBackupSaveFile().toPath();
-
-		Files.deleteIfExists(saveFilePath);
-		Files.deleteIfExists(backupSaveFilePath);
+		Files.deleteIfExists(save.getSaveFile().toPath());
+		Files.deleteIfExists(save.getBackupSaveFile().toPath());
 
 		try {
-			FileUtils.copyFile(f, saveFilePath.toFile());
+			FileUtils.copyFile(f, save.getSaveFile());
 			if (f2.exists()) {
-				FileUtils.copyFile(f2, backupSaveFilePath.toFile());
+				FileUtils.copyFile(f2, save.getBackupSaveFile());
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
