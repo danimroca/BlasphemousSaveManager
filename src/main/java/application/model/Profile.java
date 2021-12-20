@@ -17,7 +17,7 @@ public class Profile implements Serializable {
 	@XmlElement(name="save")
 	private List<Save> saves;
 	private boolean active;
-	private int saveSlot;
+	private int saveSlot = 1;
 	
 	public String getName() {
 		return name;

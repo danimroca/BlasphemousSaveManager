@@ -3,13 +3,17 @@ package application.controllers;
 import application.model.Profile;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,7 +25,6 @@ public class ProfileController extends BaseController {
 	private Profile profile;
 	private File profileLocation;
 	private File saveLocation;
-	private Stage dialogNameStage;
 
 	@FXML
 	private ListView<Profile> profileList;
@@ -53,32 +56,39 @@ public class ProfileController extends BaseController {
 	public void openSaveDirectoryChooser() throws IOException {
 		DirectoryChooser directoryChooser = new DirectoryChooser();
 		directoryChooser.setTitle("Save file location");
-		saveLocation = directoryChooser.showDialog(getCurrentStage(saveLocationInput.getScene().getWindow()));
+		saveLocation = directoryChooser.showDialog(getStage(saveLocationInput.getScene().getWindow()));
 
-		if (saveLocation != null && saveLocation.exists()) {
-			saveLocationInput.setText(saveLocation.getAbsolutePath());
+		if (saveLocation == null) {
+			return;
 		}
 
-		updateSavePath(saveLocation.getAbsolutePath());
+		if (saveLocation.exists()) {
+			saveLocationInput.setText(saveLocation.getAbsolutePath());
+			updateSavePath(saveLocation.getAbsolutePath());
+		}
+
 	}
 
 	public void openProfileDirectoryChooser() throws IOException {
 		DirectoryChooser directoryChooser = new DirectoryChooser();
 		directoryChooser.setTitle("Profiles location");
-		profileLocation = directoryChooser.showDialog(getCurrentStage(profileLocationInput.getScene().getWindow()));
+		profileLocation = directoryChooser.showDialog(getStage(profileLocationInput.getScene().getWindow()));
 
-		if (profileLocation != null && profileLocation.exists()) {
-			profileLocationInput.setText(profileLocation.getAbsolutePath());
+		if (profileLocation == null) {
+			return;
 		}
 
-		updateProfilePath(profileLocation.getAbsolutePath());
+		if (profileLocation.exists()) {
+			profileLocationInput.setText(profileLocation.getAbsolutePath());
+			updateProfilePath(profileLocation.getAbsolutePath());
+		}
 	}
 
 	public void newProfile() {
 		profile = new Profile();
-		profile.setName("change my name");
-		profileNameInput.setText("");
-		openProfileNameDialog();
+		profile.setName("");
+		profiles.add(profile);
+		openProfileEditWindow();
 	}
 
 	public void editProfile() {
@@ -86,8 +96,7 @@ public class ProfileController extends BaseController {
 		if (profile == null) {
 			return;
 		}
-		profileNameInput.setText(profile.getName());
-		openProfileNameDialog();
+		openProfileEditWindow();
 	}
 
 	public void deleteProfile() {
@@ -95,54 +104,38 @@ public class ProfileController extends BaseController {
 		if (profile == null) {
 			return;
 		}
-		profileNameInput.setText(profile.getName());
 		profiles.remove(profile);
-		if (profiles.isEmpty()) {
-			profile = null;
-		} else {
-			profile = profiles.get(0);
-		}
+		profile = null;
+
 		loadProfilesToGUI();
 		savesProfilesToXMLFile(profiles);
-	}
-
-	public void openProfileNameDialog() {
-		editProfileBox.setVisible(true);
-		editProfileBox.setManaged(true);
-		profileListPane.setVisible(false);
-		profileListPane.setManaged(false);
-	}
-
-	public void closeProfileNameMenu() {
-		editProfileBox.setVisible(false);
-		editProfileBox.setManaged(false);
-		profileListPane.setVisible(true);
-		profileListPane.setManaged(true);
-	}
-
-	public void saveProfile() {
-		profile.setName(profileNameInput.getText());
-		if (profiles.contains(profile)) {
-			updateProfiles();
-		} else {
-			profiles.add(profile);
-		}
-		loadProfilesToGUI();
-		savesProfilesToXMLFile(profiles);
-		closeProfileNameMenu();
-	}
-
-	public void updateProfiles() {
-		profiles.remove(profile);
-		profiles.add(profile);
-	}
-
-	public void setProfile(Profile profile) {
-		this.profile = profile;
 	}
 
 	public void setProfiles(List<Profile> profiles) {
 		this.profiles = profiles;
+	}
+
+	public void openProfileEditWindow() {
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/ProfileEditWindow.fxml"));
+			Scene scene = new Scene(loader.load(), 600, 400);
+			scene.getStylesheets().add(getClass().getResource("/application.css").toExternalForm());
+			Stage stage = new Stage();
+			stage.setScene(scene);
+			stage.initModality(Modality.APPLICATION_MODAL);
+			stage.setTitle("Profile");
+			ProfileEditWindowController profileEditWindowController = loader.getController();
+			profileEditWindowController.setProfiles(profiles);
+			profileEditWindowController.setProfile(profile);
+			stage.show();
+			scene.getWindow().addEventFilter(WindowEvent.WINDOW_HIDING, this::closeProfileEditWindowEvent);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void closeProfileEditWindowEvent(WindowEvent event) {
+		loadProfilesToGUI();
 	}
 
 }

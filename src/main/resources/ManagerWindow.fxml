@@ -3,6 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
+
 <BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.ManagerController">
    <center>
       <VBox BorderPane.alignment="CENTER">
@@ -53,7 +54,7 @@
    <top>
       <Pane BorderPane.alignment="CENTER" visible="false">
          <children>
-            <Text layoutX="150.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="HEader" />
+            <Text layoutX="150.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Header" />
          </children>
       </Pane>
    </top>

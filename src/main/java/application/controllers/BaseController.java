@@ -24,11 +24,11 @@ public class BaseController {
 
     protected Properties properties = new Properties();
 
-    protected void closeCurrentStage(Window window) {
+    protected void closeStage(Window window) {
         ((Stage) window).close();
     }
 
-    protected Stage getCurrentStage(Window window) {
+    protected Stage getStage(Window window) {
         return (Stage) window;
     }
 

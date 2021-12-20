@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Button?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="application.controllers.ProfileEditWindowController">
+
+    <children>
+        <VBox>
+            <children>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Enter the name for the save" />
+                <TextField fx:id="profileNameTextField" promptText="Type a name for this profile"/>
+                <HBox>
+                    <children>
+                        <Button mnemonicParsing="false" text="Accept" onAction="#accept"/>
+                        <Button mnemonicParsing="false" text="Cancel" onAction="#cancel"/>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+
+</AnchorPane>

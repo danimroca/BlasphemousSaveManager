@@ -39,19 +39,6 @@
                   </children>
                </HBox>
             </Pane>
-            <Separator/>
-            <VBox visible="false" fx:id="editProfileBox">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Profile Name" />
-                  <TextField fx:id="profileNameInput" />
-                  <HBox>
-                     <children>
-                        <Button mnemonicParsing="false" text="Accept" onAction="#saveProfile"/>
-                        <Button mnemonicParsing="false" text="Cancel" onAction="#closeProfileNameMenu"/>
-                     </children>
-                  </HBox>
-               </children>
-            </VBox>
          </children>
       </VBox>
    </children>

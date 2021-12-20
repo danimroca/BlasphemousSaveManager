@@ -35,13 +35,13 @@ public class ManagerController extends BaseController implements Initializable {
 	private List<Profile> profiles;
 
 	@FXML
-	private ChoiceBox profileChoiceBox;
+	private ChoiceBox<Profile> profileChoiceBox;
 	@FXML
-	private ListView saveListView;
+	private ListView<Save> saveListView;
 	@FXML
-	private ChoiceBox saveSlotChoiceBox;
+	private ChoiceBox<Integer> saveSlotChoiceBox;
 	@FXML
-	private ChoiceBox orderChoiceBox;
+	private ChoiceBox<String> orderChoiceBox;
 	@FXML
 	private TextField profileFilterInput;
 
@@ -59,7 +59,7 @@ public class ManagerController extends BaseController implements Initializable {
 
 	private void loadSaves() {
 		if (profile != null) {
-			saveSlotChoiceBox.setItems(FXCollections.observableArrayList("1","2","3"));
+			saveSlotChoiceBox.setItems(FXCollections.observableArrayList(1,2,3));
 			saveSlotChoiceBox.getSelectionModel().select(profile.getSaveSlot()-1);
 			loadSaveListView();
 		}
@@ -75,8 +75,8 @@ public class ManagerController extends BaseController implements Initializable {
 
 	private void loadOrderChoiceBox() {
 		orderChoiceBox.getItems().clear();
-		orderChoiceBox.setItems(FXCollections.observableArrayList("Date","Name"));
-		orderChoiceBox.setValue("Date");
+		orderChoiceBox.setItems(FXCollections.observableArrayList("Created","Name"));
+		orderChoiceBox.setValue("Created");
 	}
 
 	public void orderSaves() {
@@ -84,7 +84,7 @@ public class ManagerController extends BaseController implements Initializable {
 			return;
 		}
 		switch (orderChoiceBox.getValue().toString()) {
-			case "Date" :
+			case "Created" :
 				profile.getSaves().sort(new SaveComparatorByDate());
 				break;
 			case "Name" :
@@ -117,6 +117,9 @@ public class ManagerController extends BaseController implements Initializable {
 		}
 		if (profile == null && !profiles.isEmpty()) {
 			profile = profiles.stream().filter(Profile::isActive).findFirst().orElse(profiles.isEmpty() ? null : profiles.get(0));
+			if (profile != null) {
+				profile.setActive(true);
+			}
 		}
 	}
 
@@ -149,6 +152,9 @@ public class ManagerController extends BaseController implements Initializable {
 	 * @param event
 	 */
 	private void closeProfileWindowEvent(WindowEvent event) {
+		if (!profiles.contains(profile)) {
+			profile = null;
+		}
 		loadProfiles();
 		loadProfileChoiceBox();
 	}
@@ -187,8 +193,7 @@ public class ManagerController extends BaseController implements Initializable {
 		if (profile == null) {
 			return;
 		}
-		int saveSlot = Integer.parseInt(saveSlotChoiceBox.getSelectionModel().getSelectedItem().toString());
-		profile.setSaveSlot(saveSlot);
+		profile.setSaveSlot(saveSlotChoiceBox.getSelectionModel().getSelectedItem() == null ? 0 : saveSlotChoiceBox.getSelectionModel().getSelectedItem());
 		updateProfilesList();
 		savesProfilesToXMLFile(profiles);
 	}
