@@ -1,18 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.ManagerController">
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.ManagerController">
    <center>
       <VBox BorderPane.alignment="CENTER">
          <children>
-            <GridPane>
+            <GridPane styleClass="main-menu-gridpane">
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="NEVER" minWidth="50.0" prefWidth="50.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="150.0" prefWidth="15.0" />
+                  <ColumnConstraints hgrow="NEVER" minWidth="150.0" prefWidth="150.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -20,14 +29,14 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sort" GridPane.rowIndex="2" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Profile" />
-                  <TextField fx:id="profileFilterInput" promptText="filter" GridPane.columnIndex="2" GridPane.rowIndex="2" visible="false" />
-                  <ChoiceBox fx:id="profileChoiceBox" onAction="#selectProfile" prefWidth="150.0" GridPane.columnIndex="1" />
-                  <ChoiceBox fx:id="orderChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" onAction="#orderSaves" />
-                  <Button mnemonicParsing="false" onAction="#openProfileWindow" text="Edit profiles" GridPane.columnIndex="2" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Save Slot" GridPane.rowIndex="1" />
-                  <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="saveSlotChoiceBox" onAction="#selectSaveSlot"/>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sort by:" GridPane.rowIndex="2" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Profile:" />
+                  <TextField fx:id="profileFilterInput" promptText="filter" visible="false" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                  <ChoiceBox fx:id="profileChoiceBox" onAction="#selectProfile" prefWidth="150.0" GridPane.columnIndex="1" styleClass="clickable"/>
+                  <ChoiceBox fx:id="orderChoiceBox" onAction="#orderSaves" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" styleClass="clickable"/>
+                  <Button mnemonicParsing="false" onAction="#openProfileWindow" text="Edit profiles" GridPane.columnIndex="2" styleClass="clickable" GridPane.halignment="RIGHT"/>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Save Slot:" GridPane.rowIndex="1" />
+                  <ChoiceBox fx:id="saveSlotChoiceBox" onAction="#selectSaveSlot" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="clickable"/>
                </children>
             </GridPane>
             <ListView fx:id="saveListView" />
@@ -35,27 +44,22 @@
       </VBox>
    </center>
    <bottom>
-      <HBox alignment="CENTER">
+      <HBox alignment="CENTER" styleClass="saves-button-hbox">
          <children>
-            <Button mnemonicParsing="false" onAction="#importSave" text="Import">
+            <Button mnemonicParsing="false" onAction="#importSave" styleClass="clickable" text="Import">
             </Button>
-            <Button mnemonicParsing="false" text="Replace" onAction="#replaceSave">
+            <Button mnemonicParsing="false" onAction="#replaceSave" styleClass="clickable" text="Replace">
             </Button>
-            <Button mnemonicParsing="false" text="Load" onAction="#loadSave">
+            <Button mnemonicParsing="false" onAction="#loadSave" styleClass="clickable" text="Load">
             </Button>
-            <Button mnemonicParsing="false" text="Rename" onAction="#openSaveNameChangeDialog">
+            <Button mnemonicParsing="false" onAction="#openSaveNameChangeDialog" styleClass="clickable" text="Rename">
             </Button>
-            <Button mnemonicParsing="false" text="Delete" onAction="#deleteSave">
+            <Button mnemonicParsing="false" onAction="#deleteSave" styleClass="clickable" text="Delete">
             </Button>
 <!--            <Button mnemonicParsing="false" text="Settings" />-->
          </children>
       </HBox>
    </bottom>
    <top>
-      <Pane BorderPane.alignment="CENTER" visible="false">
-         <children>
-            <Text layoutX="150.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Header" />
-         </children>
-      </Pane>
    </top>
 </BorderPane>
