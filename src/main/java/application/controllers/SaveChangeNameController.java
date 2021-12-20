@@ -5,6 +5,7 @@ import application.model.Save;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import org.apache.commons.io.FileUtils;
 
@@ -29,9 +30,12 @@ public class SaveChangeNameController extends BaseController {
             return;
         }
 
+        Label label = new Label("Are you sure you want to rename the save?");
+        label.setWrapText(true);
+
         Alert alert = new Alert(Alert.AlertType.NONE);
         alert.setTitle("Rename save");
-        alert.setHeaderText("Are you sure you want to rename the '" + saveName + "' save?");
+        alert.getDialogPane().setContent(label);
         alert.getButtonTypes().add(ButtonType.YES);
         alert.getButtonTypes().add(ButtonType.NO);
         alert.setResizable(false);

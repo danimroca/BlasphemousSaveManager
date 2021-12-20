@@ -1,45 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?scenebuilder-stylesheet /application.css?>
+
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
-<?scenebuilder-stylesheet /application.css?>
-
-<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.ProfileController">
+<TilePane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.ProfileController">
    <children>
-      <VBox>
+      <VBox BorderPane.alignment="CENTER" minWidth="500" styleClass="save-rename-vbox">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Save location" />
-            <HBox>
+            <GridPane BorderPane.alignment="CENTER" styleClass="menu-gridpane">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="NEVER" minWidth="100.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="200.0" prefWidth="200.0" />
+                  <ColumnConstraints halignment="RIGHT" hgrow="NEVER" minWidth="80.0" prefWidth="80.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
                <children>
-                  <TextField fx:id="saveLocationInput" disable="true"/>
-                  <Button onAction="#openSaveDirectoryChooser" mnemonicParsing="false" text="Browse" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Save location :" />
+                  <TextField fx:id="saveLocationInput" disable="true" prefHeight="25.0" prefWidth="101.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Button mnemonicParsing="false" onAction="#openSaveDirectoryChooser" styleClass="clickable" text="Browse" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Profiles directory :" GridPane.rowIndex="1" />
+                  <TextField fx:id="profileLocationInput" disable="true" GridPane.columnIndex="1" />
+                  <Button mnemonicParsing="false" onAction="#openProfileDirectoryChooser" styleClass="clickable" text="Browse" GridPane.columnIndex="2" />
                </children>
-            </HBox>
-            <Text  strokeType="OUTSIDE" strokeWidth="0.0" text="Profiles directory" />
-            <HBox>
+            </GridPane>
+            <Separator />
+            <TilePane fx:id="profileListPane" alignment="CENTER">
                <children>
-                  <TextField fx:id="profileLocationInput" disable="true"/>
-                  <Button onAction="#openProfileDirectoryChooser" mnemonicParsing="false" text="Browse" />
+                  <VBox alignment="CENTER" styleClass="button-hbox">
+                     <children>
+                        <ListView fx:id="profileList" prefHeight="100" prefWidth="510" />
+                        <HBox styleClass="button-hbox" alignment="CENTER">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#newProfile" styleClass="clickable" text="New" />
+                              <Button mnemonicParsing="false" onAction="#editProfile" styleClass="clickable" text="Rename" />
+                              <Button mnemonicParsing="false" onAction="#deleteProfile" styleClass="clickable" text="Delete" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
                </children>
-            </HBox>
-            <Separator/>
-            <Pane fx:id="profileListPane">
-               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-               <HBox>
-                  <children>
-                     <ListView fx:id="profileList" />
-                     <VBox styleClass="profileListButtonBox">
-                        <children>
-                           <Button onAction="#newProfile" mnemonicParsing="false" text="New" />
-                           <Button onAction="#editProfile" mnemonicParsing="false" text="Edit" />
-                           <Button onAction="#deleteProfile" mnemonicParsing="false" text="Delete" />
-                        </children>
-                     </VBox>
-                  </children>
-               </HBox>
-            </Pane>
+            </TilePane>
          </children>
       </VBox>
    </children>
-</AnchorPane>
+</TilePane>

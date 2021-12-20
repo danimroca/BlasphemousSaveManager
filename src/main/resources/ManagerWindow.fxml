@@ -3,53 +3,53 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
-<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.ManagerController">
-   <center>
-      <VBox BorderPane.alignment="CENTER">
-         <children>
-            <GridPane styleClass="main-menu-gridpane">
-              <columnConstraints>
-                <ColumnConstraints hgrow="NEVER" minWidth="50.0" prefWidth="50.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="150.0" prefWidth="15.0" />
-                  <ColumnConstraints hgrow="NEVER" minWidth="150.0" prefWidth="150.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sort by:" GridPane.rowIndex="2" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Profile:" />
-                  <TextField fx:id="profileFilterInput" promptText="filter" visible="false" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                  <ChoiceBox fx:id="profileChoiceBox" onAction="#selectProfile" prefWidth="150.0" GridPane.columnIndex="1" styleClass="clickable"/>
-                  <ChoiceBox fx:id="orderChoiceBox" onAction="#orderSaves" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" styleClass="clickable"/>
-                  <Button mnemonicParsing="false" onAction="#openProfileWindow" text="Edit profiles" GridPane.columnIndex="2" styleClass="clickable" GridPane.halignment="RIGHT"/>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Save Slot:" GridPane.rowIndex="1" />
-                  <ChoiceBox fx:id="saveSlotChoiceBox" onAction="#selectSaveSlot" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="clickable"/>
-               </children>
-            </GridPane>
-            <ListView fx:id="saveListView" />
-         </children>
-      </VBox>
-   </center>
-   <bottom>
-      <HBox alignment="CENTER" styleClass="button-hbox">
-         <children>
-            <Button mnemonicParsing="false" onAction="#importSave" styleClass="clickable" text="Import">
-            </Button>
-            <Button mnemonicParsing="false" onAction="#replaceSave" styleClass="clickable" text="Replace">
-            </Button>
-            <Button mnemonicParsing="false" onAction="#loadSave" styleClass="clickable" text="Load">
-            </Button>
-            <Button mnemonicParsing="false" onAction="#openSaveNameChangeDialog" styleClass="clickable" text="Rename">
-            </Button>
-            <Button mnemonicParsing="false" onAction="#deleteSave" styleClass="clickable" text="Delete">
-            </Button>
-<!--            <Button mnemonicParsing="false" text="Settings" />-->
-         </children>
-      </HBox>
-   </bottom>
-   <top>
-   </top>
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.ManagerController" styleClass="main-window-pane">
+    <center>
+        <VBox BorderPane.alignment="CENTER">
+            <children>
+                <GridPane styleClass="menu-gridpane">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="NEVER" minWidth="50.0" prefWidth="50.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="150.0" prefWidth="15.0" />
+                        <ColumnConstraints hgrow="NEVER" minWidth="150.0" prefWidth="150.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sort by:" GridPane.rowIndex="2" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Profile:" />
+                        <TextField fx:id="profileFilterInput" promptText="filter" visible="false" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                        <ChoiceBox fx:id="profileChoiceBox" onAction="#selectProfile" prefWidth="150.0" GridPane.columnIndex="1" styleClass="clickable"/>
+                        <ChoiceBox fx:id="orderChoiceBox" onAction="#orderSaves" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" styleClass="clickable"/>
+                        <Button mnemonicParsing="false" onAction="#openProfileWindow" text="Edit profiles" GridPane.columnIndex="2" styleClass="clickable" GridPane.halignment="RIGHT"/>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Save Slot:" GridPane.rowIndex="1" />
+                        <ChoiceBox fx:id="saveSlotChoiceBox" onAction="#selectSaveSlot" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="clickable"/>
+                    </children>
+                </GridPane>
+                <ListView fx:id="saveListView" />
+            </children>
+        </VBox>
+    </center>
+    <bottom>
+        <HBox alignment="CENTER" styleClass="button-hbox">
+            <children>
+                <Button mnemonicParsing="false" onAction="#importSave" styleClass="clickable" text="Import">
+                </Button>
+                <Button mnemonicParsing="false" onAction="#replaceSave" styleClass="clickable" text="Replace">
+                </Button>
+                <Button mnemonicParsing="false" onAction="#loadSave" styleClass="clickable" text="Load">
+                </Button>
+                <Button mnemonicParsing="false" onAction="#openSaveNameChangeDialog" styleClass="clickable" text="Rename">
+                </Button>
+                <Button mnemonicParsing="false" onAction="#deleteSave" styleClass="clickable" text="Delete">
+                </Button>
+                <!--            <Button mnemonicParsing="false" text="Settings" />-->
+            </children>
+        </HBox>
+    </bottom>
+    <top>
+    </top>
 </BorderPane>

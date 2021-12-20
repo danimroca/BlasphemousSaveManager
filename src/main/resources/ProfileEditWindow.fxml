@@ -12,14 +12,18 @@
             fx:controller="application.controllers.ProfileEditWindowController">
 
     <children>
-        <VBox>
+        <VBox alignment="CENTER">
             <children>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Enter the name for the save" />
-                <TextField fx:id="profileNameTextField" promptText="Type a name for this profile"/>
-                <HBox>
+                <HBox alignment="CENTER" styleClass="button-hbox">
                     <children>
-                        <Button mnemonicParsing="false" text="Accept" onAction="#accept"/>
-                        <Button mnemonicParsing="false" text="Cancel" onAction="#cancel"/>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Profile name:" />
+                        <TextField fx:id="profileNameTextField" styleClass="text-input"/>
+                    </children>
+                </HBox>
+                <HBox styleClass="button-hbox" alignment="CENTER">
+                    <children>
+                        <Button mnemonicParsing="false" text="Accept" onAction="#accept" styleClass="clickable"/>
+                        <Button mnemonicParsing="false" text="Cancel" onAction="#cancel" styleClass="clickable"/>
                     </children>
                 </HBox>
             </children>

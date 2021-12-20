@@ -5,8 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -91,6 +90,22 @@ public class ProfileController extends BaseController {
 		if (profile == null) {
 			return;
 		}
+
+		Label label = new Label("Are you sure you want to delete the " + profile.getName() + " profile? \n(You will lose all the saves from this profile)");
+		label.setWrapText(true);
+
+		Alert alert = new Alert(Alert.AlertType.NONE);
+		alert.setTitle("Delete profile");
+		alert.getButtonTypes().add(ButtonType.YES);
+		alert.getButtonTypes().add(ButtonType.NO);
+		alert.setResizable(false);
+		alert.getDialogPane().setContent(label);
+		alert.showAndWait();
+
+		if (alert.getResult() == ButtonType.NO) {
+			return;
+		}
+
 		profiles.remove(profile);
 		profile = null;
 
@@ -105,11 +120,12 @@ public class ProfileController extends BaseController {
 	public void openProfileEditWindow() {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/ProfileEditWindow.fxml"));
-			Scene scene = new Scene(loader.load(), 600, 400);
+			Scene scene = new Scene(loader.load(), 450, 125);
 			scene.getStylesheets().add(getClass().getResource("/application.css").toExternalForm());
 			Stage stage = new Stage();
 			stage.setScene(scene);
 			stage.initModality(Modality.APPLICATION_MODAL);
+			stage.setResizable(false);
 			stage.setTitle("Profile");
 			ProfileEditWindowController profileEditWindowController = loader.getController();
 			profileEditWindowController.setProfiles(profiles);
