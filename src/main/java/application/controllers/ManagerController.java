@@ -42,9 +42,6 @@ public class ManagerController extends BaseController implements Initializable {
 	private ChoiceBox<Integer> saveSlotChoiceBox;
 	@FXML
 	private ChoiceBox<String> orderChoiceBox;
-	@FXML
-	private TextField profileFilterInput;
-
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -83,7 +80,7 @@ public class ManagerController extends BaseController implements Initializable {
 		if (profile == null || profile.getSaves().isEmpty()) {
 			return;
 		}
-		switch (orderChoiceBox.getValue().toString()) {
+		switch (orderChoiceBox.getValue()) {
 			case "Created" :
 				profile.getSaves().sort(new SaveComparatorByDate());
 				break;
@@ -101,7 +98,7 @@ public class ManagerController extends BaseController implements Initializable {
 	private void loadProfiles() {
 		if (getProfilePath() != null && !getProfilePath().isEmpty() && new File(getProfilePath()).exists()) {
 			//we load the profiles and then load the saves
-			Unmarshaller jaxbUnmarshaller = null;
+			Unmarshaller jaxbUnmarshaller;
 			try {
 				JAXBContext jaxbContext = JAXBContext.newInstance(Profiles.class);
 				jaxbUnmarshaller = jaxbContext.createUnmarshaller();
@@ -230,7 +227,7 @@ public class ManagerController extends BaseController implements Initializable {
 		if (profile == null) {
 			return;
 		}
-		Save save = (Save) saveListView.getSelectionModel().getSelectedItem();
+		Save save = saveListView.getSelectionModel().getSelectedItem();
 		if (save == null) {
 			return;
 		}
@@ -269,7 +266,7 @@ public class ManagerController extends BaseController implements Initializable {
 		if (profile == null) {
 			return;
 		}
-		Save save = (Save) saveListView.getSelectionModel().getSelectedItem();
+		Save save = saveListView.getSelectionModel().getSelectedItem();
 		if (save == null) {
 			return;
 		}
@@ -342,7 +339,7 @@ public class ManagerController extends BaseController implements Initializable {
 		if (profile == null) {
 			return;
 		}
-		Save save = (Save) saveListView.getSelectionModel().getSelectedItem();
+		Save save = saveListView.getSelectionModel().getSelectedItem();
 		if (save == null) {
 			return;
 		}
@@ -387,7 +384,7 @@ public class ManagerController extends BaseController implements Initializable {
 			stage.setTitle("Save change name");
 			SaveChangeNameController saveChangeNameController = loader.getController();
 			saveChangeNameController.setProfiles(profiles);
-			saveChangeNameController.setSave((Save) saveListView.getSelectionModel().getSelectedItem());
+			saveChangeNameController.setSave(saveListView.getSelectionModel().getSelectedItem());
 			stage.show();
 			scene.getWindow().addEventFilter(WindowEvent.WINDOW_HIDING, this::closeSaveNameChangeWindowEvent);
 		} catch (Exception e) {

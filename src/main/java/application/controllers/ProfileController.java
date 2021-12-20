@@ -5,11 +5,8 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -23,23 +20,13 @@ public class ProfileController extends BaseController {
 
 	private List<Profile> profiles;
 	private Profile profile;
-	private File profileLocation;
-	private File saveLocation;
 
 	@FXML
 	private ListView<Profile> profileList;
 	@FXML
-	private Button browseProfileButton;
-	@FXML
 	private TextField saveLocationInput;
 	@FXML
 	private TextField profileLocationInput;
-	@FXML
-	private TextField profileNameInput;
-	@FXML
-	private VBox editProfileBox;
-	@FXML
-	private Pane profileListPane;
 
 	public void loadProfilesToGUI() {
 		loadProperties();
@@ -56,7 +43,7 @@ public class ProfileController extends BaseController {
 	public void openSaveDirectoryChooser() throws IOException {
 		DirectoryChooser directoryChooser = new DirectoryChooser();
 		directoryChooser.setTitle("Save file location");
-		saveLocation = directoryChooser.showDialog(getStage(saveLocationInput.getScene().getWindow()));
+		File saveLocation = directoryChooser.showDialog(getStage(saveLocationInput.getScene().getWindow()));
 
 		if (saveLocation == null) {
 			return;
@@ -72,7 +59,7 @@ public class ProfileController extends BaseController {
 	public void openProfileDirectoryChooser() throws IOException {
 		DirectoryChooser directoryChooser = new DirectoryChooser();
 		directoryChooser.setTitle("Profiles location");
-		profileLocation = directoryChooser.showDialog(getStage(profileLocationInput.getScene().getWindow()));
+		File profileLocation = directoryChooser.showDialog(getStage(profileLocationInput.getScene().getWindow()));
 
 		if (profileLocation == null) {
 			return;
