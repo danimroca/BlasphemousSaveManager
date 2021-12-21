@@ -120,6 +120,15 @@ public class ManagerController extends BaseController implements Initializable {
 		}
 	}
 
+	private void reloadProfile() {
+		for (Profile p:profiles) {
+			if (profile.equals(p)) {
+				profile = p;
+				return;
+			}
+		}
+	}
+
 	public void openProfileWindow() {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/ProfileWindow.fxml"));
@@ -160,6 +169,7 @@ public class ManagerController extends BaseController implements Initializable {
 
 	private void closeSaveNameChangeWindowEvent(WindowEvent event) {
 		loadProfiles();
+		reloadProfile();
 		loadSaveListView();
 	}
 

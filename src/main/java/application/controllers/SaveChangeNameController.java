@@ -12,6 +12,7 @@ import org.apache.commons.io.FileUtils;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 public class SaveChangeNameController extends BaseController {
 
@@ -56,7 +57,7 @@ public class SaveChangeNameController extends BaseController {
                     File f2 = s.getBackupSaveFile();
                     s.setName(saveName);
 
-                    File saveFolder = new File(f.getParentFile().getParent() + File.separator + saveName);
+                    File saveFolder = generateFolderName(f, saveName);
 
                     FileUtils.moveFileToDirectory(f, saveFolder, true);
                     if (f2.exists()) {
@@ -75,6 +76,15 @@ public class SaveChangeNameController extends BaseController {
             }
         }
 
+    }
+
+    private File generateFolderName(File f, String saveName) {
+        String saveGameFolderName = f.getParentFile().getParent() + File.separator + saveName + "-" + UUID.randomUUID();
+        if (new File(saveGameFolderName).exists()) {
+            return generateFolderName(f, saveName);
+        } else {
+            return new File(saveGameFolderName);
+        }
     }
 
     public void setProfiles(List<Profile> profiles) {
