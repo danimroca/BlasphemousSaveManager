@@ -27,6 +27,7 @@
                               <Button mnemonicParsing="false" onAction="#newProfile" styleClass="clickable" text="New" />
                               <Button mnemonicParsing="false" onAction="#editProfile" styleClass="clickable" text="Rename" />
                               <Button mnemonicParsing="false" onAction="#deleteProfile" styleClass="clickable" text="Delete" />
+                              <Button mnemonicParsing="false" onAction="#closeWindow" styleClass="clickable" text="Close" />
                            </children>
                         </HBox>
                      </children>

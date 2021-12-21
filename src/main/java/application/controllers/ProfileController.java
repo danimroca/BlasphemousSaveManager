@@ -2,6 +2,7 @@ package application.controllers;
 
 import application.model.Profile;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -129,4 +130,7 @@ public class ProfileController extends BaseController {
 		loadProfilesToGUI();
 	}
 
+	public void closeWindow() {
+		closeStage(saveLocationInput.getScene().getWindow());
+	}
 }
