@@ -5,7 +5,7 @@ The Blasphemous Save Manager is a tool for managing your blasphemous save files.
 ## How to use
 
 ![](docs/images/manager_window2.png)
-![](docs/images/profile window.png)
+![](docs/images/profile_window.png)
 
 ### Create and select a profile
 
