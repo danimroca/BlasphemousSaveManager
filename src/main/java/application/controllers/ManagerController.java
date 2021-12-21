@@ -54,8 +54,9 @@ public class ManagerController extends BaseController implements Initializable {
 	}
 
 	private void loadSaves() {
+		saveSlotChoiceBox.getItems().clear();
+		saveSlotChoiceBox.setItems(FXCollections.observableArrayList(1,2,3));
 		if (profile != null) {
-			saveSlotChoiceBox.setItems(FXCollections.observableArrayList(1,2,3));
 			saveSlotChoiceBox.getSelectionModel().select(profile.getSaveSlot()-1);
 			loadSaveListView();
 		}
@@ -95,7 +96,7 @@ public class ManagerController extends BaseController implements Initializable {
 	}
 
 	private void loadProfiles() {
-		if (getProfilePath() != null && !getProfilePath().isEmpty() && new File(getProfilePath()).exists()) {
+		if (getSavePath() != null && !getSavePath().isEmpty() && new File(getSavePath()).exists()) {
 			//we load the profiles and then load the saves
 			Unmarshaller jaxbUnmarshaller;
 			try {
@@ -122,7 +123,7 @@ public class ManagerController extends BaseController implements Initializable {
 	public void openProfileWindow() {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/ProfileWindow.fxml"));
-			Scene scene = new Scene(loader.load(), 550, 300);
+			Scene scene = new Scene(loader.load(), 550, 275);
 			scene.getStylesheets().add(getClass().getResource("/application.css").toExternalForm());
 			Stage stage = new Stage();
 			stage.setScene(scene);
@@ -154,6 +155,7 @@ public class ManagerController extends BaseController implements Initializable {
 		}
 		loadProfiles();
 		loadProfileChoiceBox();
+		loadSaveListView();
 	}
 
 	private void closeSaveNameChangeWindowEvent(WindowEvent event) {
@@ -197,7 +199,9 @@ public class ManagerController extends BaseController implements Initializable {
 
 	private void loadSaveListView() {
 		saveListView.getItems().clear();
-		saveListView.setItems(FXCollections.observableArrayList(profile.getSaves()));
+		if (profile != null) {
+			saveListView.setItems(FXCollections.observableArrayList(profile.getSaves()));
+		}
 		final ContextMenu saveListMenuItem = new ContextMenu();
 		MenuItem renameMenuItem = new MenuItem("Rename");
 		renameMenuItem.setOnAction(event -> openSaveNameChangeDialog());

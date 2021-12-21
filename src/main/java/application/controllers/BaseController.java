@@ -87,11 +87,7 @@ public class BaseController {
     }
 
     protected String getProfilesFilePath() {
-        return getProfilePath() + File.separator + PROFILES_FILENAME;
-    }
-
-    protected String getProfilePath() {
-        return (String) properties.get("profilePath");
+        return getSavePath() + File.separator + PROFILES_FILENAME;
     }
 
     protected String getSavePath() {

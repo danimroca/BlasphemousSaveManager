@@ -5,7 +5,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
+import java.nio.file.Files;
 
 @XmlRootElement(name = "save")
 @XmlAccessorType(XmlAccessType.PROPERTY)
@@ -43,6 +45,12 @@ public class Save implements Serializable {
 	}
 	public void setOrder(int order) {
 		this.order = order;
+	}
+
+	public void deleteSaveFiles() throws IOException {
+		Files.deleteIfExists(saveFile.toPath());
+		Files.deleteIfExists(backupSaveFile.toPath());
+		Files.deleteIfExists(saveFile.getParentFile().toPath());
 	}
 
 	@Override

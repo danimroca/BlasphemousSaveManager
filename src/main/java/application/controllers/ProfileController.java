@@ -24,16 +24,11 @@ public class ProfileController extends BaseController {
 	private ListView<Profile> profileList;
 	@FXML
 	private TextField saveLocationInput;
-	@FXML
-	private TextField profileLocationInput;
 
 	public void loadProfilesToGUI() {
 		loadProperties();
 		profileList.getItems().clear();
 		profileList.setItems(FXCollections.observableArrayList(profiles));
-		if (!getProfilePath().isEmpty()) {
-			profileLocationInput.setText(getProfilePath());
-		}
 		if (!getSavePath().isEmpty()) {
 			saveLocationInput.setText(getSavePath());
 		}
@@ -53,21 +48,6 @@ public class ProfileController extends BaseController {
 			updateSavePath(saveLocation.getAbsolutePath());
 		}
 
-	}
-
-	public void openProfileDirectoryChooser() throws IOException {
-		DirectoryChooser directoryChooser = new DirectoryChooser();
-		directoryChooser.setTitle("Profiles location");
-		File profileLocation = directoryChooser.showDialog(getStage(profileLocationInput.getScene().getWindow()));
-
-		if (profileLocation == null) {
-			return;
-		}
-
-		if (profileLocation.exists()) {
-			profileLocationInput.setText(profileLocation.getAbsolutePath());
-			updateProfilePath(profileLocation.getAbsolutePath());
-		}
 	}
 
 	public void newProfile() {
@@ -105,6 +85,14 @@ public class ProfileController extends BaseController {
 		if (alert.getResult() == ButtonType.NO) {
 			return;
 		}
+
+		profile.getSaves().forEach(save -> {
+			try {
+				save.deleteSaveFiles();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
 
 		profiles.remove(profile);
 		profile = null;

@@ -1,7 +1,7 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
 .root {
-    -fx-font-size: 14px;
-    -fx-font-family: sans-serif;
+    -fx-font-size: 12px;
+    -fx-font-family: roboto;
 }
 
 .main-window-pane {
